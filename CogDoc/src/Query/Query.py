@@ -1,4 +1,4 @@
-import src.Query.DataItem.DataItem
+from src.Query.DataItem.DataItem import DataItem as DataItem
 
 class Query(object):
     """description of class"""
@@ -22,15 +22,15 @@ class Query(object):
                     _name = query.get("name"),
                     _source = source,
                     _joins = None,
-                    _dataItems = None,
+                    _dataItems = DataItem.getDataItems(query, namespace),
                     #getDataItems,
                     _filters = None,
                     _slicers = None
                 )
             print(
                 "QueryName: ", qry.name, 
-                ", Source: ", qry.source
+                ", Source: ", qry.source,
+                ", DataItems", len( qry.dataItems )
                 )
-            #dataItems=getDataItems(query)
-            #for item in dataItems:
-            #    print("  "+ item.name, etree.tostring( item.element ))
+            for dataItem in qry.dataItems:
+                print(dataItem.name, dataItem.expression)
