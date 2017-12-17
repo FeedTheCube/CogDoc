@@ -29,33 +29,24 @@
   <ItemGroup>
     <Folder Include="src\" />
     <Folder Include="src\Classes\" />
-    <Folder Include="src\Query\" />
-    <Folder Include="src\Query\DataItem\" />
-    <Folder Include="src\Query\DetailFilter\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="main.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="src\Classes\DatItem.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\Classes\DetFilter.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\Classes\Query.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="src\Classes\Util.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="src\Query\DataItem\DataItem.py">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="src\Query\DataItem\__init__.py">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="src\Query\DetailFilter\DetailFilter.py">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="src\Query\DetailFilter\__init__.py">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="src\Query\Query.py">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="src\Query\__init__.py">
+    <Compile Include="src\Classes\__init__.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="src\__init__.py">
