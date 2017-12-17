@@ -30,6 +30,7 @@
     <Folder Include="src\" />
     <Folder Include="src\Query\" />
     <Folder Include="src\Query\DataItem\" />
+    <Folder Include="src\Query\DetailFilter\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="main.py">
@@ -39,6 +40,12 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="src\Query\DataItem\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\Query\DetailFilter\DetailFilter.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\Query\DetailFilter\__init__.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="src\Query\Query.py">

@@ -1,14 +1,16 @@
 from src.Query.DataItem.DataItem import DataItem as DataItem
+from src.Query.DetailFilter.DetailFilter import DetailFilter as DF
 
 class Query(object):
     """description of class"""
-    def __init__(self, _name, _source, _joins, _dataItems, _filters, _slicers):
+    def __init__(self, _name, _source, _joins, _dataItems, _filters, _slicers, _element):
         self.name = _name
         self.source = _source
         self.joins = _joins
         self.dataItems = _dataItems
         self.filters = _filters
         self.slicers = _slicers
+        self.element = _element
 
     def getQueries(xmlSpec, namespace):
         print("retreiving queries")
@@ -24,13 +26,13 @@ class Query(object):
                     _joins = None,
                     _dataItems = DataItem.getDataItems(query, namespace),
                     #getDataItems,
-                    _filters = None,
-                    _slicers = None
+                    _filters = DF.getDetailFilters(query, namespace),
+                    _slicers = None,
+                    _element = query
                 )
             print(
                 "QueryName: ", qry.name, 
                 ", Source: ", qry.source,
-                ", DataItems", len( qry.dataItems )
+                ", DataItems: ", len( qry.dataItems ),
+                ", Filters: ", len(qry.filters)
                 )
-            for dataItem in qry.dataItems:
-                print(dataItem.name, dataItem.expression)
