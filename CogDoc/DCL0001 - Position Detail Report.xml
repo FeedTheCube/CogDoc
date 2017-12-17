@@ -470,4 +470,5 @@ else ( [Last Name (C-EE)] &lt;&gt; 'N/A' or ( [Last Name (C-EE)] = 'N/A') )  end
 				<variableValue value="1"/>
 			</variableValues>
 		</reportVariable>
-	</reportVariables></report>
+	</reportVariables>
+</report>

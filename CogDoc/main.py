@@ -12,4 +12,6 @@ parser = etree.XMLParser(recover=True, remove_blank_text=True, ns_clean=True)
 xmlData = etree.fromstring(spec, parser=parser)
 ns = "{" + xmlData.nsmap[None] + "}"
 
-Query.getQueries(xmlData, ns)
+queries = Query.getQueries(xmlData, ns)
+for query in queries:
+    query.printQueryStats()
