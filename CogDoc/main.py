@@ -1,9 +1,9 @@
 import os
 import src
-import xml.etree.ElementTree as etree
+import src.Classes
+import src.Classes.Util
+from src.Classes.Util import Util as Util
 from lxml import etree
-from src.Classes.Util import Util
-from src.Query.Query import Query as Query
 
 
 __location__ = os.path.realpath(

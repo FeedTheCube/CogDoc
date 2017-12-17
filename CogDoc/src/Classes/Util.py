@@ -1,6 +1,9 @@
-from src.Query.Query import Query
-from src.Query.DataItem.DataItem import DataItem
-from src.Query.DetailFilter.DetailFilter import DetailFilter
+import src
+import src.Classes
+import src.Classes.DatItem as DI
+import src.Classes.DetFilter as DF
+import src.Classes.Query as Q
+
 
 class Util(object):
     #Used for static methods/functions
@@ -14,7 +17,7 @@ class Util(object):
                 source = query[0][0].get("refQuery")
             if query[0][0].tag == namespace+"model":
                 source = "model"
-            qry = Query(
+            qry = Q.Query(
                     _name = query.get("name"),
                     _source = source,
                     _joins = None,
@@ -32,7 +35,7 @@ class Util(object):
         dataItems = []
         dItemsIter = element.iter(namespace+"dataItem")
         for dataItem in dItemsIter:
-            dI = DataItem(
+            dI = DI.DatItem(
                 _name = dataItem.get("name"),
                 _aggregate = dataItem.get("aggregate"),
                 _rollupAggregate = dataItem.get("rollupAggregate"),
@@ -54,7 +57,7 @@ class Util(object):
                     usage = detFilter.get("usage")
                 else:
                     usage = "required"
-                df = DetailFilter(
+                df = DF.DetFilter(
                     _expression = detFilter[0].text,
                     _usage = usage,
                     _element = detFilter

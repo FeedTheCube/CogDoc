@@ -1,6 +1,3 @@
-from src.Query.DataItem.DataItem import DataItem as DataItem
-from src.Query.DetailFilter.DetailFilter import DetailFilter as DF
-
 class Query(object):
     """description of class"""
     def __init__(self, _name, _source, _joins, _dataItems, _filters, _slicers, _element):
