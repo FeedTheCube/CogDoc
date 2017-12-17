@@ -7,19 +7,3 @@ class DataItem(object):
         self.sort = _sort
         self.expression = _expression
         self.element = _element
-
-    def getDataItems(element, namespace):
-        dataItems = []
-        dItemsIter = element.iter(namespace+"dataItem")
-        for dataItem in dItemsIter:
-            dI = DataItem(
-                _name = dataItem.get("name"),
-                _aggregate = dataItem.get("aggregate"),
-                _rollupAggregate = dataItem.get("rollupAggregate"),
-                _sort = dataItem.get("sort"),
-                _expression = dataItem[0].text,
-                _element = dataItem
-                )
-            dataItems.append(dI)
-         
-        return dataItems

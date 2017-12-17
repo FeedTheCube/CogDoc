@@ -28,12 +28,16 @@
   </PropertyGroup>
   <ItemGroup>
     <Folder Include="src\" />
+    <Folder Include="src\Classes\" />
     <Folder Include="src\Query\" />
     <Folder Include="src\Query\DataItem\" />
     <Folder Include="src\Query\DetailFilter\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="main.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\Classes\Util.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="src\Query\DataItem\DataItem.py">

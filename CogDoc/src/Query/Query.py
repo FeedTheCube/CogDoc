@@ -12,32 +12,10 @@ class Query(object):
         self.slicers = _slicers
         self.element = _element
 
-    def getQueries(xmlSpec, namespace):
-        print("retreiving queries")
-        queries=[]
-        queriesIter = xmlSpec.iter(namespace + "query")
-        for query in queriesIter:
-            if query[0][0].tag == namespace+"queryRef":
-                source = query[0][0].get("refQuery")
-            if query[0][0].tag == namespace+"model":
-                source = "model"
-            qry = Query(
-                    _name = query.get("name"),
-                    _source = source,
-                    _joins = None,
-                    _dataItems = DataItem.getDataItems(query, namespace),
-                    #getDataItems,
-                    _filters = DF.getDetailFilters(query, namespace),
-                    _slicers = None,
-                    _element = query
-                )
-            queries.append(qry)
-        return queries
-      
-    def printQueryStats(self):
-          print(
-                "QueryName: ", self.name, 
-                ", Source: ", self.source,
-                ", DataItems: ", len( self.dataItems ),
-                ", Filters: ", len(self.filters)
-                )
+    def printStats(self):
+        print(
+            "QueryName: ", self.name, 
+            ", Source: ", self.source,
+            ", DataItems: ", len( self.dataItems ),
+            ", Filters: ", len(self.filters)
+            )
