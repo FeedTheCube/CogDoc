@@ -1,9 +1,7 @@
 import os
-import src
-import src.Classes
-import src.Classes.Util
 from src.Classes.Util import Util as Util
-from lxml import etree
+from src.Classes.Query import Query as Query
+from lxml import etree 
 
 
 __location__ = os.path.realpath(
@@ -16,6 +14,19 @@ parser = etree.XMLParser(recover=True, remove_blank_text=True, ns_clean=True)
 xmlData = etree.fromstring(spec, parser=parser)
 ns = "{" + xmlData.nsmap[None] + "}"
 
+totalDataItems = 0
+totalFilters = 0
+
 queries = Util.getQueries(xmlData, ns)
 for query in queries:
-    query.printStats()
+    totalDataItems += len(query.dataItems)
+    totalFilters += len(query.filters)
+
+totalQueries = len(queries)
+print(
+    "DataItems: ", totalDataItems, 
+    "Filters: ", totalFilters,
+    "Queries: ", totalQueries
+    )
+[print(item.json()) for item in queries]
+
