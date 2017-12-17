@@ -14,8 +14,9 @@ class Query(object):
 
     def getQueries(xmlSpec, namespace):
         print("retreiving queries")
-        queries = xmlSpec.iter(namespace + "query")
-        for query in queries:
+        queries=[]
+        queriesIter = xmlSpec.iter(namespace + "query")
+        for query in queriesIter:
             if query[0][0].tag == namespace+"queryRef":
                 source = query[0][0].get("refQuery")
             if query[0][0].tag == namespace+"model":
@@ -30,9 +31,13 @@ class Query(object):
                     _slicers = None,
                     _element = query
                 )
-            print(
-                "QueryName: ", qry.name, 
-                ", Source: ", qry.source,
-                ", DataItems: ", len( qry.dataItems ),
-                ", Filters: ", len(qry.filters)
+            queries.append(qry)
+        return queries
+      
+    def printQueryStats(self):
+          print(
+                "QueryName: ", self.name, 
+                ", Source: ", self.source,
+                ", DataItems: ", len( self.dataItems ),
+                ", Filters: ", len(self.filters)
                 )
