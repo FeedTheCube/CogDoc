@@ -1,17 +1,32 @@
+import os
+from src.Classes.Util import Util as Util
+from src.Classes.Query import Query as Query
+from lxml import etree 
 
-from lxml import etree
-import xml.etree.ElementTree as ET
-import src
-from src.Query.Query import Query as Query
 
+__location__ = os.path.realpath(
+    os.path.join(os.getcwd(), os.path.dirname(__file__)))
 
-with open("DCL0001 - Position Detail Report.xml",'r') as xmlFile:
+with open(__location__+"\DCL0001 - Position Detail Report.xml",'r') as xmlFile:
     spec = xmlFile.read()
 xmlFile.close()
 parser = etree.XMLParser(recover=True, remove_blank_text=True, ns_clean=True)
 xmlData = etree.fromstring(spec, parser=parser)
 ns = "{" + xmlData.nsmap[None] + "}"
 
-queries = Query.getQueries(xmlData, ns)
+totalDataItems = 0
+totalFilters = 0
+
+queries = Util.getQueries(xmlData, ns)
 for query in queries:
-    query.printQueryStats()
+    totalDataItems += len(query.dataItems)
+    totalFilters += len(query.filters)
+
+totalQueries = len(queries)
+print(
+    "DataItems: ", totalDataItems, 
+    "Filters: ", totalFilters,
+    "Queries: ", totalQueries
+    )
+[print(item.json()) for item in queries]
+
