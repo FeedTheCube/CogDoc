@@ -26,8 +26,10 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Folder Include="Output\" />
     <Folder Include="src\" />
     <Folder Include="src\Classes\" />
+    <Folder Include="src\Templates\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="main.py">
@@ -56,6 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="DCL0001 - Position Detail Report.xml" />
+    <Content Include="src\Templates\template.html" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.Web.targets" />
   <!-- Specify pre- and post-build commands in the BeforeBuild and 

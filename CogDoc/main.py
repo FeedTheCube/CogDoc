@@ -19,7 +19,7 @@ totalFilters = 0
 
 reports = Util.getReports(xmlData, ns)
 
-for report in reports:
+for index,report in enumerate(reports):
     print(report.json())
 
     for query in report.queries:
@@ -33,5 +33,7 @@ for report in reports:
         "Queries: ", totalQueries
         )
     [print(item.json()) for item in report.queries]
+
+    Util.exportHTML("report"+str(index)+".html","Report "+str(index),"HEADER",str(report.json()),"FOOTER")
 
 
