@@ -17,16 +17,21 @@ ns = "{" + xmlData.nsmap[None] + "}"
 totalDataItems = 0
 totalFilters = 0
 
-queries = Util.getQueries(xmlData, ns)
-for query in queries:
-    totalDataItems += len(query.dataItems)
-    totalFilters += len(query.filters)
+reports = Util.getReports(xmlData, ns)
 
-totalQueries = len(queries)
-print(
-    "DataItems: ", totalDataItems, 
-    "Filters: ", totalFilters,
-    "Queries: ", totalQueries
-    )
-[print(item.json()) for item in queries]
+for report in reports:
+    print(report.json())
+
+    for query in report.queries:
+        totalDataItems += len(query.dataItems)
+        totalFilters += len(query.filters)
+
+    totalQueries = len(report.queries)
+    print(
+        "DataItems: ", totalDataItems, 
+        "Filters: ", totalFilters,
+        "Queries: ", totalQueries
+        )
+    [print(item.json()) for item in report.queries]
+
 

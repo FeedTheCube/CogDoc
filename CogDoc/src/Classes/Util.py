@@ -1,13 +1,38 @@
-from src.Classes.DatItem import DatItem as DatItem
-from src.Classes.DetFilter import DetFilter as DetFilter
-from src.Classes.Query import Query as Query
+from src.Classes.Report import Report
+from src.Classes.DataItem import DataItem
+from src.Classes.DetailFilter import DetailFilter
+from src.Classes.Query import Query
 
 
 class Util(object):
     #Used for static methods/functions
 
+    def getReports(element, namespace):
+        reports = []
+
+        itemGroup = element.iter(namespace + "report")
+        for item in itemGroup:
+
+            #IMPROVE - The below chunk of code seems less than ideal. I imagine there's a much better way to handle it.
+
+            if item.attrib['useStyleVersion']:
+                useStyleVersion = item.attrib['useStyleVersion']
+            if item.attrib['expressionLocale']:
+                expressionLocale = item.attrib['expressionLocale']
+            if item.attrib['viewPagesAsTabs']:
+                viewPagesAsTabs = item.attrib['viewPagesAsTabs']
+
+            new = Report(namespace, useStyleVersion, expressionLocale, viewPagesAsTabs)
+
+            new.queries = Util.getQueries(item, namespace)
+
+            reports.append(new)
+
+        return reports
+
+
     def getQueries(element, namespace):
-        queries=[]
+        queries = []
         
         itemGroup = element.iter(namespace + "query")
         for item in itemGroup:
@@ -15,6 +40,7 @@ class Util(object):
                 source = item[0][0].get("refQuery")
             if item[0][0].tag == namespace+"model":
                 source = "model"
+
             queries.append( 
                 Query(
                     name = item.get("name"),
@@ -36,7 +62,7 @@ class Util(object):
         itemGroup = element.iter(namespace+"dataItem")
         for item in itemGroup:
             dataItems.append(
-                DatItem(
+                DataItem(
                     name = item.get("name"),
                     aggregate = item.get("aggregate"),
                     rollupAggregate = item.get("rollupAggregate"),
@@ -50,7 +76,7 @@ class Util(object):
     
 
     def getDetailFilters(element, namespace):
-        detailedFilters = []
+        detailFilters = []
         
         itemGroup = element.iter(namespace + "detailFilter")
         if itemGroup:
@@ -60,11 +86,12 @@ class Util(object):
                 else:
                     usage = "required"
                 
-                detailFilter = DetFilter(
-                    expression = item[0].text,
-                    usage = usage,
-                    element = item
+                detailFilters.append(
+                    DetailFilter(
+                        expression = item[0].text,
+                        usage = usage,
+                        element = item
                     )
-                detailedFilters.append(detailFilter)
+                )
         
-        return detailedFilters
+        return detailFilters

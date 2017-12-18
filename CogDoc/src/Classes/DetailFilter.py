@@ -1,4 +1,4 @@
-class DetFilter(object):
+class DetailFilter(object):
     """description of class"""
     def __init__(self, expression, usage, element):
         self.expression = expression
