@@ -1,6 +1,6 @@
 class DetFilter(object):
     """description of class"""
-    def __init__(self, _expression, _usage, _element):
-        self.expression = _expression
-        self.usage = _usage
-        self.element = _element
+    def __init__(self, expression, usage, element):
+        self.expression = expression
+        self.usage = usage
+        self.element = element
