@@ -33,13 +33,12 @@
     <Compile Include="main.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="src\Classes\DatItem.py">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="src\Classes\DetFilter.py">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="src\Classes\DataItem.py" />
+    <Compile Include="src\Classes\DetailFilter.py" />
     <Compile Include="src\Classes\Query.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\Classes\Report.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="src\Classes\Util.py">

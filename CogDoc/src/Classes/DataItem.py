@@ -1,4 +1,4 @@
-class DatItem(object):
+class DataItem(object):
     """description of class"""
     def __init__(self, name, aggregate, rollupAggregate, sort, expression, element):
         self.name = name
