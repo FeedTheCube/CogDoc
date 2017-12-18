@@ -1,3 +1,4 @@
+import os
 from src.Classes.Report import Report
 from src.Classes.DataItem import DataItem
 from src.Classes.DetailFilter import DetailFilter
@@ -95,3 +96,20 @@ class Util(object):
                 )
         
         return detailFilters
+
+
+    def exportHTML(filename, title, header, content, footer):
+        with open(os.getcwd()+"\\src\\Templates\\template.html","r") as templateFile:
+            template = templateFile.read()
+        templateFile.close()
+
+        template = template.replace("[[TITLE]]",title)
+        template = template.replace("[[HEADER]]",header)
+        template = template.replace("[[CONTENT]]",content)
+        template = template.replace("[[FOOTER]]",footer)
+
+        with open(os.getcwd()+"\\Output\\"+filename,"w") as outFile:
+            outFile.write(template)
+        outFile.close()
+
+
