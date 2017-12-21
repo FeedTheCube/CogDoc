@@ -46,6 +46,9 @@
     <Compile Include="src\Classes\Report.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="src\Classes\Style.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="src\Classes\Util.py">
       <SubType>Code</SubType>
     </Compile>

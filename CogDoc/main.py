@@ -19,7 +19,13 @@ totalFilters = 0
 
 reports = Util.getReports(xmlData, ns)
 
+
+styles = Util.getStyles(xmlData, ns)
+
+print(styles[-1].getStyleTree())
+
 for index,report in enumerate(reports):
+
     print(report.json())
 
     for query in report.queries:

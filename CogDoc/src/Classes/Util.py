@@ -3,6 +3,7 @@ from src.Classes.Report import Report
 from src.Classes.DataItem import DataItem
 from src.Classes.DetailFilter import DetailFilter
 from src.Classes.Query import Query
+from src.Classes.Style import Style
 
 
 class Util(object):
@@ -97,6 +98,46 @@ class Util(object):
         
         return detailFilters
 
+
+    def getStyles(element, namespace):
+        styles = []
+        
+        itemOuter = element.iter(namespace + "style")
+        if itemOuter:
+            for outer in itemOuter:
+
+                print("Checking ",outer.tag)
+
+                itemGroup = outer.iter(namespace + "*")
+                if itemGroup:
+                    previous = None
+
+                    for item in itemGroup:
+
+                        print("...Checking ",item.tag)
+
+                        if item.tag == namespace + "defaultStyle" or item.tag == namespace + "CSS":
+                            if item.get("refStyle"):
+                                reference = item.get("refStyle")
+                            else:
+                                reference = ""
+
+                            if item.get("value"):
+                                css = item.get("value")
+                            else:
+                                css = ""
+                
+                            styles.append(
+                                Style(
+                                    parent = previous,
+                                    reference = reference,
+                                    css = css
+                                )
+                            )
+
+                            previous = item     #CHECK - Is this always valid as a "parent" to the next style?
+        
+        return styles
 
     def exportHTML(filename, title, header, content, footer):
         with open(os.getcwd()+"\\src\\Templates\\template.html","r") as templateFile:
