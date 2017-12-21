@@ -3,10 +3,47 @@ from src.Classes.Report import Report
 from src.Classes.DataItem import DataItem
 from src.Classes.DetailFilter import DetailFilter
 from src.Classes.Query import Query
+from lxml import etree 
 
 
 class Util(object):
     #Used for static methods/functions
+
+    def loadInputFile(path):
+        if(path):
+            with open(path,'r') as xmlFile:
+                spec = xmlFile.read()
+            xmlFile.close()
+            parser = etree.XMLParser(recover=True, remove_blank_text=True, ns_clean=True)
+            xmlData = etree.fromstring(spec, parser=parser)
+            ns = "{" + xmlData.nsmap[None] + "}"
+
+
+            #TEMPORARY OUTPUT SETUP
+
+            totalDataItems = 0
+            totalFilters = 0
+
+            reports = Util.getReports(xmlData, ns)
+
+            for report in reports:
+                print(report.json())
+
+                for query in report.queries:
+                    totalDataItems += len(query.dataItems)
+                    totalFilters += len(query.filters)
+
+                totalQueries = len(report.queries)
+                print(
+                    "DataItems: ", totalDataItems, 
+                    "Filters: ", totalFilters,
+                    "Queries: ", totalQueries
+                    )
+                [print(item.json()) for item in report.queries]
+
+            return reports
+        return None
+
 
     def getReports(element, namespace):
         reports = []
@@ -108,8 +145,6 @@ class Util(object):
         template = template.replace("[[CONTENT]]",content)
         template = template.replace("[[FOOTER]]",footer)
 
-        with open(os.getcwd()+"\\Output\\"+filename,"w") as outFile:
+        with open(filename,"w") as outFile:
             outFile.write(template)
         outFile.close()
-
-

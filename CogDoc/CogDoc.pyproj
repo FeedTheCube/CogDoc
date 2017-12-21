@@ -37,6 +37,9 @@
     </Compile>
     <Compile Include="src\Classes\DataItem.py" />
     <Compile Include="src\Classes\DetailFilter.py" />
+    <Compile Include="src\Classes\GUI.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="src\Classes\Query.py">
       <SubType>Code</SubType>
     </Compile>
