@@ -7,3 +7,12 @@ class DataItem(object):
         self.sort = sort
         self.expression = expression
         self.element = element
+
+    def json(self):
+        {
+        "name": self.name,
+        "aggregate": self.aggregate,
+        "rollupAggregate": self.rollupAggregate,
+        "sort": self.sort,
+        "expression": self.expression,
+        }

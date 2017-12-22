@@ -1,4 +1,5 @@
 import os
+import json
 from src.Classes.Report import Report
 from src.Classes.DataItem import DataItem
 from src.Classes.DetailFilter import DetailFilter
@@ -9,27 +10,17 @@ class Util(object):
     #Used for static methods/functions
 
     def getReports(element, namespace):
-        reports = []
+        if element.attrib['useStyleVersion']:
+            useStyleVersion = element.attrib['useStyleVersion']
+        if element.attrib['expressionLocale']:
+            expressionLocale = element.attrib['expressionLocale']
+        if element.attrib['viewPagesAsTabs']:
+            viewPagesAsTabs = element.attrib['viewPagesAsTabs']
+        if element[5].tag == (namespace+"reportName"):
+            name = element[5].text
+        new = Report(namespace, useStyleVersion, expressionLocale, viewPagesAsTabs, element, name)
 
-        itemGroup = element.iter(namespace + "report")
-        for item in itemGroup:
-
-            #IMPROVE - The below chunk of code seems less than ideal. I imagine there's a much better way to handle it.
-
-            if item.attrib['useStyleVersion']:
-                useStyleVersion = item.attrib['useStyleVersion']
-            if item.attrib['expressionLocale']:
-                expressionLocale = item.attrib['expressionLocale']
-            if item.attrib['viewPagesAsTabs']:
-                viewPagesAsTabs = item.attrib['viewPagesAsTabs']
-
-            new = Report(namespace, useStyleVersion, expressionLocale, viewPagesAsTabs)
-
-            new.queries = Util.getQueries(item, namespace)
-
-            reports.append(new)
-
-        return reports
+        return new
 
 
     def getQueries(element, namespace):
@@ -107,9 +98,28 @@ class Util(object):
         template = template.replace("[[HEADER]]",header)
         template = template.replace("[[CONTENT]]",content)
         template = template.replace("[[FOOTER]]",footer)
-
-        with open(os.getcwd()+"\\Output\\"+filename,"w") as outFile:
+       
+        with open(os.getcwd()+"\\Output\\"+filename,"w+") as outFile:
             outFile.write(template)
         outFile.close()
 
+    def HTMLify(listJSONs):
+        if (len(listJSONs)<1):
+            pass
+        html = "<table class='table table-striped'>"
+  
+        #set Headers
+        html += "<thead  class='thead-dark'><tr>"
+        for header in listJSONs[0].keys():
+            html+="<th scope='col'>" + header +"</th>"
+        html += "</tr></thead>"
+        
+        #set Records
+        for item in listJSONs:
+            html += "<tr>"
+            for field in item:
+                html+="<td scope='row'>{}</td>".format(item[field])
+            html += "</tr>"
 
+        html += "</table>"
+        return html

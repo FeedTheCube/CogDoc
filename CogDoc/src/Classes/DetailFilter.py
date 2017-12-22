@@ -4,3 +4,9 @@ class DetailFilter(object):
         self.expression = expression
         self.usage = usage
         self.element = element
+
+    def json(self):
+        {
+            "expression":self.expression,
+            "usage": self.usage
+        }

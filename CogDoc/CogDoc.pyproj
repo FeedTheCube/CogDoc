@@ -26,6 +26,7 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Folder Include="Input\" />
     <Folder Include="Output\" />
     <Folder Include="src\" />
     <Folder Include="src\Classes\" />
@@ -55,9 +56,13 @@
     <Compile Include="src\__init__.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="test.py">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="DCL0001 - Position Detail Report.xml" />
+    <Content Include="Input\DCL0002 - Position Detail Report - Copy.xml" />
+    <Content Include="Input\DCL0001 - Position Detail Report.xml" />
     <Content Include="src\Templates\template.html" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.Web.targets" />
