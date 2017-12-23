@@ -11,11 +11,14 @@
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
     <LaunchProvider>Web launcher</LaunchProvider>
-    <WebBrowserUrl>http://localhost</WebBrowserUrl>
+    <WebBrowserUrl>http://feedthecube.ca</WebBrowserUrl>
     <OutputPath>.</OutputPath>
     <SuppressCollectPythonCloudServiceFiles>true</SuppressCollectPythonCloudServiceFiles>
     <Name>CogDoc</Name>
     <RootNamespace>CogDoc</RootNamespace>
+    <EnableNativeCodeDebugging>False</EnableNativeCodeDebugging>
+    <IsWindowsApplication>True</IsWindowsApplication>
+    <WebBrowserPort>80</WebBrowserPort>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
@@ -30,6 +33,7 @@
     <Folder Include="src\" />
     <Folder Include="src\Classes\" />
     <Folder Include="src\Templates\" />
+    <Folder Include="src\Views\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="main.py">
@@ -53,6 +57,12 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="src\Classes\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\Views\ReportView.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\Views\__init__.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="src\__init__.py">

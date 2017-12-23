@@ -22,13 +22,42 @@ class Util(object):
             #TEMPORARY OUTPUT SETUP
 
             report = Util.getSingleReport(xmlData, ns)
-
+            
             #Build the output
-            lstQueries = Util.getQueries(xmlData, ns)
-            #print(len(lstQueries))
-            lstQueriesJSON = [query.json() for query in lstQueries]
-            content = Util.HTMLify(lstQueriesJSON)
+            content = ""
+            
+            #Attributes
+            XMLattributes = ""
+            for item in report.json():
+                value = report.json()[item]
+                print(value)
+                badge = ""
+                if isinstance(value, int):
+                    badge = "<span class='badge'>{}</span>".format(value)
+                    value = ""
 
+                XMLattributes += "<li class='list-group-item'>{}  {}  {}</li>".format(item, value, badge)
+            
+            print(XMLattributes)
+            if XMLattributes != "":
+                content += "<h2>Summary</h2><ul class='list-group'>{}</ul>".format(XMLattributes)
+
+            #Queries
+            lstQueries = Util.getQueries(xmlData, ns)
+            lstQueriesJSON = [query.json() for query in lstQueries]
+            content += Util.HTMLify(lstQueriesJSON, "Queries")
+            
+            #DataItems
+            for query in lstQueries:
+                lstDataItems = Util.getDataItems(query.element, ns)
+                lstDataItemsJSON = [dataItem.json() for dataItem in lstDataItems]
+                content += Util.HTMLify(lstDataItemsJSON, "Query - {}".format(query.name))
+            
+            #Detail Filters
+            
+            #Pages
+            
+            #Containers
             return content, report
         return None
 
@@ -161,20 +190,27 @@ class Util(object):
         outFile.close()
 
     
-    def HTMLify(listJSONs):
-        
+    def HTMLify(listJSONs, title=None):
+        #length of listJSONs
+        tableWidth = len(listJSONs[0].keys())
+
         #skip empty jsons
         if (len(listJSONs)<1):
             pass
         
         #build the table
         html = "<table class='table table-striped'>"
-  
+        
         #set Headers
+        if (title):
+            html += "<thead class='thead-dark'><tr><th scope='col' colspan='{}'>{}</th></tr></thead>".format(tableWidth,title)
+            
         headerLabelsHTML = ""
         for header in listJSONs[0].keys():
             headerLabelsHTML+="<th scope='col'>{}</th>".format(header)
-        html += "<thead  class='thead-dark'><tr>{}</tr></thead><tbody>".format(headerLabelsHTML)
+        
+        print(headerLabelsHTML)
+        html += "<thead  class='thead-light'><tr>{}</tr></thead><tbody>".format(headerLabelsHTML)
         
         #set Records
         for item in listJSONs:
