@@ -11,16 +11,30 @@ class Report(object):
     #ADD - schedule
     #ADD - saved outputs
 
-    def __init__(self, _xmlns, _useStyleVersion, _expressionLocale, _viewPagesAsTabs):
+    def __init__(self, name, _xmlns, _useStyleVersion, _expressionLocale, _viewPagesAsTabs, element, drillBehaviors = [], queries=[], dataItems=[], pages=[], dataContainers=[]):
         self.xmlns = _xmlns
+        self.name = name
         self.useStyleVersion = _useStyleVersion
         self.expressionLocale = _expressionLocale
         self.viewPagesAsTabs = _viewPagesAsTabs
+        self.element = element
+        self.drillBehaviors = drillBehaviors
+        self.queries = queries
+        self.dataItems = dataItems
+        self.pages = pages
+        self.dataContainers = dataContainers
 
     def json(self):
         return {
+            'name': name,
             'xmlns' : self.xmlns, 
             'useStyleVersion' : self.useStyleVersion, 
             'expressionLocale' : self.expressionLocale, 
-            'viewPagesAsTabs' : self.viewPagesAsTabs
+            'viewPagesAsTabs' : self.viewPagesAsTabs,
+            'drillBehaviours': len(self.drillBehaviors),
+            'queries': len(queries),
+            'dataItems': len(dataItems),
+            'pages': len(pages),
+            'dataContainers': len(dataContainers)
+
         }

@@ -13,7 +13,7 @@ class GUI(object):
         inputFile = filedialog.askopenfilename(initialdir = "./",title = "Choose an input file",filetypes = (("XML Files","*.xml"),("All Files","*.*")))
         if inputFile:
             self.inputName['text'] = inputFile
-            self.reports = Util.loadInputFile(inputFile)
+            self.content, self.report = Util.loadInputFile(inputFile)
         else:
             self.inputName['text'] = "No Input File Selected"
 
@@ -31,8 +31,8 @@ class GUI(object):
         #ADD - should also make sure the correct extension is on the filename
 
         if(os.path.exists(self.inputName['text']) and os.path.isfile(self.inputName['text']) and self.outputName['text'] != ""):
-            if self.reports[0]:
-                Util.exportHTML(self.outputName['text'],"Report","HEADER",str(self.reports[0].json()),"FOOTER")
+            if self.content:
+                Util.exportHTML(self.outputName['text'], self.report.name, self.report.name, self.content, "FOOTER")
 
 
     def draw(self):

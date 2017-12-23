@@ -21,27 +21,15 @@ class Util(object):
 
             #TEMPORARY OUTPUT SETUP
 
-            totalDataItems = 0
-            totalFilters = 0
+            report = Util.getSingleReport(xmlData, ns)
 
-            reports = Util.getReports(xmlData, ns)
+            #Build the output
+            lstQueries = Util.getQueries(xmlData, ns)
+            #print(len(lstQueries))
+            lstQueriesJSON = [query.json() for query in lstQueries]
+            content = Util.HTMLify(lstQueriesJSON)
 
-            for report in reports:
-                print(report.json())
-
-                for query in report.queries:
-                    totalDataItems += len(query.dataItems)
-                    totalFilters += len(query.filters)
-
-                totalQueries = len(report.queries)
-                print(
-                    "DataItems: ", totalDataItems, 
-                    "Filters: ", totalFilters,
-                    "Queries: ", totalQueries
-                    )
-                [print(item.json()) for item in report.queries]
-
-            return reports
+            return content, report
         return None
 
 
@@ -59,15 +47,38 @@ class Util(object):
                 expressionLocale = item.attrib['expressionLocale']
             if item.attrib['viewPagesAsTabs']:
                 viewPagesAsTabs = item.attrib['viewPagesAsTabs']
+            if item[5].text:
+                name = item[5].text
 
-            new = Report(namespace, useStyleVersion, expressionLocale, viewPagesAsTabs)
+            new = Report(name, namespace, useStyleVersion, expressionLocale, viewPagesAsTabs, item)
 
             new.queries = Util.getQueries(item, namespace)
+            new.dataItems = Util.getDataItems(item, namespace)
 
             reports.append(new)
 
         return reports
 
+
+    def getSingleReport(element, namespace):
+        
+        #IMPROVE - The below chunk of code seems less than ideal. I imagine there's a much better way to handle it.
+
+        if element.attrib['useStyleVersion']:
+            useStyleVersion = element.attrib['useStyleVersion']
+        if element.attrib['expressionLocale']:
+            expressionLocale = element.attrib['expressionLocale']
+        if element.attrib['viewPagesAsTabs']:
+            viewPagesAsTabs = element.attrib['viewPagesAsTabs']
+        if element[5].text:
+            name = element[5].text
+
+        report = Report(name,namespace, useStyleVersion, expressionLocale, viewPagesAsTabs, element)
+
+        report.queries = Util.getQueries(element, namespace)
+        report.dataItems = Util.getDataItems(element, namespace)
+
+        return report
 
     def getQueries(element, namespace):
         queries = []
@@ -148,3 +159,30 @@ class Util(object):
         with open(filename,"w") as outFile:
             outFile.write(template)
         outFile.close()
+
+    
+    def HTMLify(listJSONs):
+        
+        #skip empty jsons
+        if (len(listJSONs)<1):
+            pass
+        
+        #build the table
+        html = "<table class='table table-striped'>"
+  
+        #set Headers
+        headerLabelsHTML = ""
+        for header in listJSONs[0].keys():
+            headerLabelsHTML+="<th scope='col'>{}</th>".format(header)
+        html += "<thead  class='thead-dark'><tr>{}</tr></thead><tbody>".format(headerLabelsHTML)
+        
+        #set Records
+        for item in listJSONs:
+            rowValuesHTML = ""
+            for field in item:
+                rowValuesHTML+="<td scope='row' class='filterable-cell'>{}</td>".format(item[field])
+            html += "<tr>{}</tr>".format(rowValuesHTML)
+        
+        #close the table
+        html += "</tbody></table>"
+        return html
