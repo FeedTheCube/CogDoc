@@ -24,10 +24,17 @@ class Util(object):
             report = Util.getSingleReport(xmlData, ns)
 
             #Build the output
-            lstQueries = Util.getQueries(xmlData, ns)
+            #lstQueries = Util.getQueries(xmlData, ns)
             #print(len(lstQueries))
-            lstQueriesJSON = [query.json() for query in lstQueries]
-            content = Util.HTMLify(lstQueriesJSON)
+            #lstQueriesJSON = [query.json() for query in lstQueries]
+
+            content = Util.HTMLify(report)
+
+
+            #RECOMMENDATION - I think we should move this to an export method. It just makes more sense for work to be done when the user clicks that button rather than before. 
+                #It's also strangely slow on my computer and delays selecting an output file.
+
+
 
             return content, report
         return None
@@ -53,7 +60,7 @@ class Util(object):
             new = Report(name, namespace, useStyleVersion, expressionLocale, viewPagesAsTabs, item)
 
             new.queries = Util.getQueries(item, namespace)
-            new.dataItems = Util.getDataItems(item, namespace)
+            #new.dataItems = Util.getDataItems(item, namespace)
 
             reports.append(new)
 
@@ -76,7 +83,7 @@ class Util(object):
         report = Report(name,namespace, useStyleVersion, expressionLocale, viewPagesAsTabs, element)
 
         report.queries = Util.getQueries(element, namespace)
-        report.dataItems = Util.getDataItems(element, namespace)
+        #report.dataItems = Util.getDataItems(element, namespace)
 
         return report
 
@@ -161,28 +168,57 @@ class Util(object):
         outFile.close()
 
     
-    def HTMLify(listJSONs):
-        
-        #skip empty jsons
-        if (len(listJSONs)<1):
-            pass
-        
+    def HTMLify(report):
+
         #build the table
         html = "<table class='table table-striped'>"
-  
-        #set Headers
-        headerLabelsHTML = ""
-        for header in listJSONs[0].keys():
-            headerLabelsHTML+="<th scope='col'>{}</th>".format(header)
-        html += "<thead  class='thead-dark'><tr>{}</tr></thead><tbody>".format(headerLabelsHTML)
-        
-        #set Records
-        for item in listJSONs:
-            rowValuesHTML = ""
-            for field in item:
-                rowValuesHTML+="<td scope='row' class='filterable-cell'>{}</td>".format(item[field])
-            html += "<tr>{}</tr>".format(rowValuesHTML)
-        
+
+        #set Headings
+        headingLabelsHTML = ""
+        reportValues = ""
+        for heading in report.json().keys():
+            headingLabelsHTML += "<th scope='col'>{}</th>".format(heading.title())
+            reportValues += "<td>{}</td>".format(report.json()[heading])
+        html += "<thead class='thead-dark'><tr>{}</tr></thead>\n".format(headingLabelsHTML)
+        html += "<tbody>\n"
+        html += "<tr class=\"clickable\" onclick=\"return toggleChildren('report-" + report.name + "');\">{}</tr>\n".format(reportValues)
+
+
+        #CHANGE - set up a proper numeric ID for reports, and use that for toggleChildren() 
+        #ALSO - use it as a prefix or something for cell_group values so that there's no risk of two reports having the same values
+
+
+        html += "<tbody id=\"report-" + report.name + "\" style=\"display: none;\">\n\n"
+
+        #set Queries
+        for index, query in enumerate(report.queries):
+            cell_group = "cell-group-" + str(index)
+            
+            jsonQuery = query.json()
+
+            #sub-table for queries
+           
+            html += "<tr><td></td><td colspan=\"4\">"  #CHANGE - Need to set up colspan to span (heading count) - 1 columns
+            
+            
+            columns = ""
+            for column in jsonQuery.keys():
+                columns += "<td>" + str(jsonQuery[column]) + "</td>"
+            html += "<tr class=\"clickable\" onclick=\"return toggleChildren('" + cell_group + "');\">{}</tr>".format(columns)
+
+            html += "<tr><td></td><td colspan=\"4\">"  #CHANGE - Need to set up colspan to span (heading count) - 1 columns
+
+            #sub-table for data items
+            html += "<table class=\"cell-group\" id=\"" + cell_group + "\" style=\"display: none;\">\n"
+            for dataItem in query.dataItems:
+                html += "<tr>{}</tr>\n".format("<td colspan=\"4\">" + dataItem.name + "</td>")
+            html += "</table>\n"
+
+            html += "</td></tr>\n"
+
+        html += "\n</tbody>\n" #end of report tbody
+
         #close the table
-        html += "</tbody></table>"
+        html += "\n</tbody>\n</table>"
+
         return html

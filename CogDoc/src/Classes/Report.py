@@ -6,7 +6,6 @@ class Report(object):
     lastModified = "" 
 
     queries = []
-    dataItems = []
     
     #ADD - schedule
     #ADD - saved outputs
@@ -26,15 +25,15 @@ class Report(object):
 
     def json(self):
         return {
-            'name': name,
+            'name': self.name,
             'xmlns' : self.xmlns, 
             'useStyleVersion' : self.useStyleVersion, 
             'expressionLocale' : self.expressionLocale, 
             'viewPagesAsTabs' : self.viewPagesAsTabs,
             'drillBehaviours': len(self.drillBehaviors),
-            'queries': len(queries),
-            'dataItems': len(dataItems),
-            'pages': len(pages),
-            'dataContainers': len(dataContainers)
+            'queries': len(self.queries),
+            'dataItems': len(self.dataItems),
+            'pages': len(self.pages),
+            'dataContainers': len(self.dataContainers)
 
         }
