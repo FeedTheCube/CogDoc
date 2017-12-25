@@ -1,16 +1,9 @@
-from src.Classes.Util import Util
-from src.Classes.Report import Report
-from src.Classes.Query import Query
-from src.Classes.DataItem import DataItem
-from src.Classes.DetailFilter import DetailFilter
+﻿<!--
+report = Util.getSingleReport(xmlData, ns)
 
-class ReportView(object):
-    """description of class"""
-    def displayReport(Report:report):
-            
             #Build the output
             content = ""
-            
+
             #Attributes
             XMLattributes = ""
             for item in report.json():
@@ -22,16 +15,17 @@ class ReportView(object):
                     value = ""
 
                 XMLattributes += "<li class='list-group-item'>{}  {}  {}</li>".format(item, value, badge)
-            
+
             print(XMLattributes)
             if XMLattributes != "":
-                content += "<h2>Summary</h2><ul class='list-group'>{}</ul>".format(XMLattributes)
+                content += "<h2>Summary</h2>
+<ul class='list-group'>{}</ul>".format(XMLattributes)
 
             #Queries
             lstQueries = Util.getQueries(xmlData, ns)
             lstQueriesJSON = [query.json() for query in lstQueries]
             content += Util.HTMLify(lstQueriesJSON, "queries")
-            
+
             #Query Objects
             for query in lstQueries:
                 #dataItems
@@ -41,11 +35,15 @@ class ReportView(object):
                 #detailFilters
                 detailFilters = Util.getDetailFilters(query.element, ns)
                 detailFiltersJSON = [filter.json() for filter in detailFilters]
-                content += Util.HTMLify(detailFiltersJSON, "{}: Filters".format(query.name)) 
+                content += Util.HTMLify(detailFiltersJSON, "{}: Filters".format(query.name))
 
-         
+
             #Pages
-            
-            #Containers
-    
 
+            #Containers
+-->
+
+{% extends "_layout.html" %}
+{% block content %}
+    <p><b>W</b>elcome to Feed the Cube's Report Studio Documenter</p>
+{% endblock %}

@@ -1,0 +1,31 @@
+﻿{% extends "_layout.html" %}
+{% block content %}
+
+    {% if reports|length > 0 %}
+<div class="jumbotron" style="vertical-align:top">
+    <h2 style="display:inline">Reports</h2>   
+    <span class="badge badge-dark">{{reports|length}}</span>
+</div>
+<table class="table table-striped">
+    <thead class="thead thead-dark">
+        <tr>
+            {% for key in keys %}
+            <th>{{key}}</th>
+            {% endfor %}
+        </tr>
+
+    </thead>
+    <tbody>
+        {% for report in reports %}
+        <tr>
+        {% for item in json %}
+            {% for property in item %}
+            <td>{{item[property]}}</td>
+            {% endfor %}
+        {% endfor %}
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+    {% endif %}
+{% endblock %}

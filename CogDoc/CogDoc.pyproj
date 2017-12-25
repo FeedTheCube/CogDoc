@@ -11,14 +11,14 @@
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
     <LaunchProvider>Web launcher</LaunchProvider>
-    <WebBrowserUrl>http://feedthecube.ca</WebBrowserUrl>
+    <WebBrowserUrl>http://localhost</WebBrowserUrl>
     <OutputPath>.</OutputPath>
     <SuppressCollectPythonCloudServiceFiles>true</SuppressCollectPythonCloudServiceFiles>
     <Name>CogDoc</Name>
     <RootNamespace>CogDoc</RootNamespace>
     <EnableNativeCodeDebugging>False</EnableNativeCodeDebugging>
     <IsWindowsApplication>True</IsWindowsApplication>
-    <WebBrowserPort>80</WebBrowserPort>
+    <WebBrowserPort>8180</WebBrowserPort>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
@@ -29,10 +29,12 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Folder Include="templates\" />
     <Folder Include="Output\" />
     <Folder Include="src\" />
     <Folder Include="src\Classes\" />
-    <Folder Include="src\Templates\" />
+    <Folder Include="NewFolder1\" />
+    <Folder Include="src\templates\" />
     <Folder Include="src\Views\" />
   </ItemGroup>
   <ItemGroup>
@@ -71,7 +73,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="DCL0001 - Position Detail Report.xml" />
-    <Content Include="src\Templates\template.html" />
+    <Content Include="requirements.txt" />
+    <Content Include="templates\load_report.html" />
+    <Content Include="templates\report.html" />
+    <Content Include="src\templates\template.html" />
+    <Content Include="templates\reports.html" />
+    <Content Include="templates\_layout.html" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.Web.targets" />
   <!-- Specify pre- and post-build commands in the BeforeBuild and 

@@ -1,4 +1,6 @@
 import os
+from _codecs import encode
+import codecs
 from src.Classes.Report import Report
 from src.Classes.DataItem import DataItem
 from src.Classes.DetailFilter import DetailFilter
@@ -33,7 +35,7 @@ class Util(object):
                 print(value)
                 badge = ""
                 if isinstance(value, int):
-                    badge = "<span class='badge'>{}</span>".format(value)
+                    badge = "<span class='badge'><a href='#{}'>{}</a></span>".format(item,value)
                     value = ""
 
                 XMLattributes += "<li class='list-group-item'>{}  {}  {}</li>".format(item, value, badge)
@@ -45,16 +47,20 @@ class Util(object):
             #Queries
             lstQueries = Util.getQueries(xmlData, ns)
             lstQueriesJSON = [query.json() for query in lstQueries]
-            content += Util.HTMLify(lstQueriesJSON, "Queries")
+            content += Util.HTMLify(lstQueriesJSON, "queries")
             
-            #DataItems
+            #Query Objects
             for query in lstQueries:
-                lstDataItems = Util.getDataItems(query.element, ns)
-                lstDataItemsJSON = [dataItem.json() for dataItem in lstDataItems]
-                content += Util.HTMLify(lstDataItemsJSON, "Query - {}".format(query.name))
-            
-            #Detail Filters
-            
+                #dataItems
+                dataItems = Util.getDataItems(query.element, ns)
+                dataItemsJSON = [item.json() for item in dataItems]
+                content += Util.HTMLify(dataItemsJSON, "{}:  Data Items".format(query.name))
+                #detailFilters
+                detailFilters = Util.getDetailFilters(query.element, ns)
+                detailFiltersJSON = [filter.json() for filter in detailFilters]
+                content += Util.HTMLify(detailFiltersJSON, "{}: Filters".format(query.name)) 
+
+         
             #Pages
             
             #Containers
@@ -176,7 +182,7 @@ class Util(object):
 
 
     def exportHTML(filename, title, header, content, footer):
-        with open(os.getcwd()+"\\src\\Templates\\template.html","r") as templateFile:
+        with open(os.getcwd()+"\\src\\templates\\template.html","r") as templateFile:
             template = templateFile.read()
         templateFile.close()
 
@@ -192,8 +198,10 @@ class Util(object):
     
     def HTMLify(listJSONs, title=None):
         #length of listJSONs
-        tableWidth = len(listJSONs[0].keys())
-
+        if (len(listJSONs)>0):
+            tableWidth = len(listJSONs[0].keys())
+        else:
+            return "<table class='table'><tr class='info'>{}: No Filters</table>".format(title)
         #skip empty jsons
         if (len(listJSONs)<1):
             pass
@@ -203,7 +211,7 @@ class Util(object):
         
         #set Headers
         if (title):
-            html += "<thead class='thead-dark'><tr><th scope='col' colspan='{}'>{}</th></tr></thead>".format(tableWidth,title)
+            html += "<thead id={1} class='thead-dark'><tr><th scope='col' colspan='{0}'>{1}</th></tr></thead>".format(tableWidth, title)
             
         headerLabelsHTML = ""
         for header in listJSONs[0].keys():
@@ -222,3 +230,20 @@ class Util(object):
         #close the table
         html += "</tbody></table>"
         return html
+
+    def HTMLloadInputFile(xmlFile):
+        if(xmlFile):
+            spec = xmlFile.read()
+            xmlFile.close()
+            print(spec)
+            parser = etree.XMLParser(encoding='UTF-8', recover=True, remove_blank_text=True, ns_clean=True)
+            xmlData = etree.fromstring(spec, parser=parser)
+            ns = "{" + xmlData.nsmap[None] + "}"
+
+
+            #TEMPORARY OUTPUT SETUP
+
+            report = Util.getSingleReport(xmlData, ns)
+            
+            return report
+        return None
