@@ -40,17 +40,16 @@ def upload_file():
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
             reports.append(Util.HTMLloadInputFile(file))
+
+            #with codecs.encode( file, 'utf-8', 'ignore') as sourceFile:
+            #    with codecs.open(file.filename, "w", "utf-8") as targetFile:
+            #        while True:
+            #            contents = sourceFile.read(BLOCKSIZE)
+            #            if not contents:
+            #                break
+            #            targetFile.write(contents)
+
             return redirect(url_for('listReports'))
-
-
-
-        with codecs.open(file.filename, "r", "your-source-encoding") as sourceFile:
-            with codecs.open(targetFileName, "w", "utf-8") as targetFile:
-                while True:
-                    contents = sourceFile.read(BLOCKSIZE)
-                    if not contents:
-                        break
-                    targetFile.write(contents)
 
 
 

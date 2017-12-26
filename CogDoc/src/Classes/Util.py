@@ -1,6 +1,7 @@
 import os
 from _codecs import encode
 import codecs
+from _codecs import utf_8_encode
 from src.Classes.Report import Report
 from src.Classes.DataItem import DataItem
 from src.Classes.DetailFilter import DetailFilter
@@ -233,11 +234,13 @@ class Util(object):
 
     def HTMLloadInputFile(xmlFile):
         if(xmlFile):
+            print(type(xmlFile))
             spec = xmlFile.read()
             xmlFile.close()
-            print(spec)
-            parser = etree.XMLParser(encoding='UTF-8', recover=True, remove_blank_text=True, ns_clean=True)
+
+            parser = etree.XMLParser(recover=True, encoding="ISO-8859-1", remove_blank_text=True, ns_clean=True)
             xmlData = etree.fromstring(spec, parser=parser)
+
             ns = "{" + xmlData.nsmap[None] + "}"
 
 

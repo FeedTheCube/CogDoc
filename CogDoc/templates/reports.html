@@ -16,15 +16,17 @@
 
     </thead>
     <tbody>
-        {% for report in reports %}
-        <tr>
+
+
         {% for item in json %}
+        <tr>
             {% for property in item %}
             <td>{{item[property]}}</td>
             {% endfor %}
-        {% endfor %}
         </tr>
         {% endfor %}
+
+
     </tbody>
 </table>
     {% endif %}
