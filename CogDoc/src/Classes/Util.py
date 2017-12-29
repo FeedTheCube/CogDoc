@@ -96,20 +96,20 @@ class Util(object):
         return reports
 
 
-    def getSingleReport(element, namespace):
-        
+    def getSingleReport(element, namespace, reportName = None, CMID=None):
+
         #IMPROVE - The below chunk of code seems less than ideal. I imagine there's a much better way to handle it.
 
-        if element.attrib['useStyleVersion']:
-            useStyleVersion = element.attrib['useStyleVersion']
-        if element.attrib['expressionLocale']:
-            expressionLocale = element.attrib['expressionLocale']
-        if element.attrib['viewPagesAsTabs']:
-            viewPagesAsTabs = element.attrib['viewPagesAsTabs']
-        if element[5].text:
-            name = element[5].text
 
-        report = Report(name,namespace, useStyleVersion, expressionLocale, viewPagesAsTabs, element)
+        useStyleVersion = element.get('useStyleVersion')
+        expressionLocale = element.get('expressionLocale')
+        viewPagesAsTabs = element.get('viewPagesAsTabs')
+        if (reportName):
+            name = reportName
+        else:
+            name = element.find('reportName')[0].text
+
+        report = Report(CMID=CMID, name=name,xmlns=namespace, useStyleVersion=useStyleVersion, expressionLocale=expressionLocale, viewPagesAsTabs = viewPagesAsTabs, element=element)
 
         report.queries = Util.getQueries(element, namespace)
         report.dataItems = Util.getDataItems(element, namespace)
@@ -250,3 +250,19 @@ class Util(object):
             
             return report
         return None
+
+    def DBloadInputFile(strXML, reportName=None, CMID=None):
+        if(strXML):
+            parser = etree.XMLParser(recover=True, encoding="ISO-8859-1", remove_blank_text=True, ns_clean=True)
+            xmlData = etree.fromstring(strXML, parser=parser)
+
+            ns = "{" + xmlData.nsmap[None] + "}"
+
+            # TEMPORARY OUTPUT SETUP
+
+            report = Util.getSingleReport(xmlData, ns, reportName, CMID=CMID)
+
+            return report
+
+        return None
+

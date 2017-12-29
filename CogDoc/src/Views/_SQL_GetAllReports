@@ -1,0 +1,37 @@
+WITH Reports (P_PCMID, P_CMID, P_NAME, P_TYPE, Level)
+AS
+(
+-- Anchor member definition
+    SELECT o.PCMID as Parent_PCMID, o.CMID as Parent_CMID, n.NAME as Parent_Name, c.NAME as _TYPE
+        ,0 AS Level
+    FROM CMOBJECTS AS o,
+	CMOBJNAMES AS n,
+	CMCLASSES AS c
+    WHERE
+	o.CMID = n.CMID
+    and o.CLASSID = c.CLASSID
+	and n.ISDEFAULT=1
+	and o.CMID = 2
+	UNION ALL
+-- Recursive member definition
+    SELECT o.PCMID, o.CMID, n.NAME, c.NAME as _TYPE
+        , Level +1
+    FROM CMOBJECTS AS o
+	INNER JOIN Reports r on (o.PCMID = r.P_CMID),
+	CMOBJNAMES AS n,
+	CMCLASSES AS c
+
+    WHERE
+	o.CMID = n.CMID
+    and o.CLASSID = c.CLASSID
+	and n.ISDEFAULT=1
+
+)
+-- Statement that executes the CTE
+SELECT *
+FROM Reports r,
+(select o.PCMID, o.CMID, p.SPEC, n.NAME from CMOBJECTS o, CMOBJNAMES n,  CMOBJPROPS7 p, CMCLASSES c where o.CMID = p.CMID and o.CLASSID = c.CLASSID and o.CMID = n.CMID and c.NAME='Report' and n.ISDEFAULT=1) obj
+ where r.P_CMID = obj.PCMID
+ order by CMID
+
+OPTION (MAXRECURSION 50)
