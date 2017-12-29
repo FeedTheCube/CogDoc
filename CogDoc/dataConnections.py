@@ -2,7 +2,7 @@ from pyodbc import connect
 
 conn = connect(
     r'DRIVER={ODBC Driver 11 for SQL Server};'
-    r'SERVER=localhost\FTCSQL14;'
+    r'SERVER=CHMCH1\FTCSQL14;'
     r'DATABASE=cognos_cs;'
     r'UID=sa;'
     r'PWD=PASSWORD'
