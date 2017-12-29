@@ -1,5 +1,5 @@
 import os
-import codecs
+import CogDoc.dataConnections as DC
 from flask.templating import render_template
 from src.Classes.Report import Report
 from src.Classes.GUI import GUI
@@ -8,7 +8,7 @@ from src.Classes.Util import Util
 from flask import Flask, request, url_for, redirect
 from werkzeug.utils import secure_filename
 
-reports = []
+
 
 #gui = GUI()
 #gui.draw()
@@ -57,7 +57,8 @@ def upload_file():
 
 @app.route('/reports', methods=["GET","POST"])
 def listReports():
-    print(len(reports))
+    reports = []
+    [reports.append(Util.DBloadInputFile(row[7], reportName=row.NAME, CMID=row.CMID)) for row in DC.getAllReports()]
     if len(reports)>0:
         keys = reports[0].json().keys()
         lstJSON = []
