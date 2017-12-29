@@ -1,5 +1,5 @@
 import os
-import CogDoc.dataConnections as DC
+import dataConnections as DC
 from flask.templating import render_template
 from src.Classes.Report import Report
 from src.Classes.GUI import GUI
@@ -39,7 +39,7 @@ def upload_file():
             return redirect(request.url)
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
-            reports.append(Util.HTMLloadInputFile(file))
+            #reports.append(Util.HTMLloadInputFile(file))
 
             #with codecs.encode( file, 'utf-8', 'ignore') as sourceFile:
             #    with codecs.open(file.filename, "w", "utf-8") as targetFile:

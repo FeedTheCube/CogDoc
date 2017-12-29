@@ -38,6 +38,7 @@
     <Folder Include="src\Views\" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="dataConnections.py" />
     <Compile Include="main.py">
       <SubType>Code</SubType>
     </Compile>
@@ -72,6 +73,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="connections.xml" />
     <Content Include="DCL0001 - Position Detail Report.xml" />
     <Content Include="requirements.txt" />
     <Content Include="templates\load_report.html" />

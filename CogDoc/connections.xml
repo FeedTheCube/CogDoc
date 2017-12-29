@@ -1,0 +1,32 @@
+<connections>
+	<connection id="local_mysql">
+		<title>MySQL Test</title>
+		<host>localhost</host>
+		<port>3306</port>
+		<mode>mysql</mode>
+		<login>
+			<user>cogdoc</user>
+			<pass>defg4321</pass>
+		</login>
+		<structure>
+			<dbName>cogdoc</dbName>
+			<colID>CMID</colID>
+			<colXML>xml</colXML>
+		</structure>
+	</connection>
+	<connection id="hyndman_mssql">
+		<title>MSSQL Test</title>
+		<host>CHMCH1\FTCSQL14</host>
+		<port></port>
+		<mode>mssql</mode>
+		<login>
+			<user>SA</user>
+			<pass></pass>
+		</login>
+		<structure>
+			<dbName>cognos_cs</dbName>
+			<colID>CMID</colID>
+			<colXML>xml</colXML>
+		</structure>
+	</connection>
+</connections>
