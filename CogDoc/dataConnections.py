@@ -37,7 +37,13 @@ def dbConnect(config):
         pwd = config["pwd"]
 
         if mode == "mssql":
-            conn = connectMSSQL('DRIVER={ODBC Driver 11 for SQL Server};','SERVER='+host+';','DATABASE='+db+';','UID='+uid+';','PWD='+pwd+';')
+            conn = connectMSSQL(
+                r'DRIVER={ODBC Driver 11 for SQL Server};'
+                r'SERVER='+host+';'
+                r'DATABASE='+db+';'
+                r'UID='+uid+';'
+                r'PWD='+pwd
+            )
         elif mode == "mysql":
             conn = connectMySQL(host=host, user=uid, passwd=pwd, db=db)
 
@@ -51,7 +57,7 @@ def fixQuery(mode,query):
 
 
 def getAllReports():
-    config = dbLoadConfig("local_mysql")    #CHANGE - should be loaded once, not before every method call
+    config = dbLoadConfig("hyndman_mssql")    #CHANGE - should be loaded once, not before every method call
 
     conn = dbConnect(config)
     cursor = conn.cursor()

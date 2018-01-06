@@ -58,19 +58,13 @@ def upload_file():
 @app.route('/reports', methods=["GET","POST"])
 def listReports():
     reports = []
-    [reports.append(Util.DBloadInputFile(row[7], reportName=row.NAME, CMID=row.CMID)) for row in DC.getAllReports()]
+    [reports.append(Util.DBloadInputFile(row[2], reportName=row.NAME, CMID=row.CMID)) for row in DC.getAllReports()]
     if len(reports)>0:
         keys = reports[0].json().keys()
         lstJSON = []
         [lstJSON.append(report.json()) for report in reports]
 
         return render_template('reports.html', reports=reports, keys = keys, json = lstJSON)
-
-@app.route('/report',  methods = ["GET", "POST"])
-def displayReport():
-
-    return render_template('report.html')
-    
 
 
 if __name__=='__main__':

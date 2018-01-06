@@ -1,12 +1,12 @@
 <connections>
 	<connection id="local_mysql">
-		<title>MySQL Test</title>
-		<host>localhost</host>
-		<port>3306</port>
+		<title>MySQL Default</title>
+		<host>server</host>
+		<port>port</port>
 		<mode>mysql</mode>
 		<login>
-			<user>cogdoc</user>
-			<pass>defg4321</pass>
+			<user>user</user>
+			<pass>password</pass>
 		</login>
 		<structure>
 			<dbName>cogdoc</dbName>
@@ -15,16 +15,16 @@
 		</structure>
 	</connection>
 	<connection id="hyndman_mssql">
-		<title>MSSQL Test</title>
-		<host>CHMCH1\FTCSQL14</host>
-		<port></port>
+		<title>MSSQL Default</title>
+		<host>server</host>
+		<port>port</port>
 		<mode>mssql</mode>
 		<login>
-			<user>SA</user>
-			<pass></pass>
+			<user>uid</user>
+			<pass>password</pass>
 		</login>
 		<structure>
-			<dbName>cognos_cs</dbName>
+			<dbName>content_store_db_name</dbName>
 			<colID>CMID</colID>
 			<colXML>xml</colXML>
 		</structure>
