@@ -7,7 +7,7 @@ from src.Classes.DataItem import DataItem
 from src.Classes.DetailFilter import DetailFilter
 from src.Classes.Query import Query
 from lxml import etree 
-
+import CogDoc.dataConnections as DC
 
 class Util(object):
     #Used for static methods/functions
@@ -152,7 +152,7 @@ class Util(object):
                     aggregate = item.get("aggregate"),
                     rollupAggregate = item.get("rollupAggregate"),
                     sort = item.get("sort"),
-                    expression = item[0].text,
+                    expression = item.Element("expression"),
                     element = item
                 )
             )
@@ -253,7 +253,7 @@ class Util(object):
 
     def DBloadInputFile(strXML, reportName=None, CMID=None):
         if(strXML):
-            parser = etree.XMLParser(recover=True, encoding="ISO-8859-1", remove_blank_text=True, ns_clean=True)
+            parser = etree.XMLParser(recover=True,  remove_blank_text=True, ns_clean=True)
             xmlData = etree.fromstring(strXML, parser=parser)
 
             ns = "{" + xmlData.nsmap[None] + "}"
@@ -266,3 +266,40 @@ class Util(object):
 
         return None
 
+    def queryDB(connectionID, query):
+        config = DC.dbLoadConfig(connectionID)    #CHANGE - should be loaded once, not before every method call
+
+        conn = DC.dbConnect(config)
+        cursor = conn.cursor()
+
+        query = DC.fixQuery(config['mode'],query)
+
+        cursor.execute(query)
+        rows = cursor.fetchall()
+
+        conn.close()
+
+        return rows
+
+    def getAllReports(connectionID):
+        with open('../CogDoc/src/Views/_SQL_GetAllReports', 'r') as sqlFile:
+            query = sqlFile.read()
+
+        sqlFile.close()
+        rows = Util.queryDB(connectionID = connectionID, query=query)
+        return rows
+
+    def getReportByID(connectionID, CMID):
+        with open('../CogDoc/src/Views/_SQL_GetAllReports', 'r') as sqlFile:
+            query = sqlFile.read()
+        sqlFile.close()
+
+        with open('../CogDoc/src/Views/_SQL_Filter_andCMID', 'r') as sqlFilter:
+            query += sqlFilter.read()
+        sqlFilter.close()
+
+        query = query.format(CMID)
+        rows = Util.queryDB(connectionID=connectionID, query=query)
+        print(rows[0].NAME)
+        report = Util.DBloadInputFile(strXML=rows[0][2],reportName=rows[0].NAME, CMID = rows[0].CMID)
+        return report

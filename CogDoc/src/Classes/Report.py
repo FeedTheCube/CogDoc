@@ -39,3 +39,4 @@ class Report(object):
             'pages': len(self.pages),
             'dataContainers': len(self.dataContainers)
         }
+

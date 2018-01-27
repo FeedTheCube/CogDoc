@@ -20,6 +20,9 @@
 
         {% for item in json %}
         <tr>
+            {% if item=='CMID' %}
+            Hyperlink
+            {% endif %}
             {% for property in item %}
             <td>{{item[property]}}</td>
             {% endfor %}

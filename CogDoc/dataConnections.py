@@ -55,23 +55,3 @@ def fixQuery(mode,query):
 
     return query
 
-
-def getAllReports():
-    config = dbLoadConfig("hyndman_mssql")    #CHANGE - should be loaded once, not before every method call
-
-    conn = dbConnect(config)
-    cursor = conn.cursor()
-    with open('../CogDoc/src/Views/_SQL_GetAllReports', 'r') as sqlFile:
-        query = sqlFile.read()
-
-    sqlFile.close()
-
-    query = fixQuery(config['mode'],query)
-
-    cursor.execute(query)
-    rows = cursor.fetchall()
-
-    conn.close()
-
-    return rows
-

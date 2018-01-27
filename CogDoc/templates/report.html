@@ -45,5 +45,58 @@ report = Util.getSingleReport(xmlData, ns)
 
 {% extends "_layout.html" %}
 {% block content %}
-    <p><b>W</b>elcome to Feed the Cube's Report Studio Documenter</p>
+
+<div class="jumbotron">
+    <h1>{{report.name}}</h1>
+</div>
+
+<span id="Attributes">
+<ul class="list-group">
+    <h2>Attributes</h2>
+    {% for item in report.json() %}
+        {% if item != 'name' %}
+        <li class='list-group-item'>{{item}}:
+            {% if report.json()[item] is number %}
+                <span class="badge">{{report.json()[item]}}</span>
+            {% else %}
+                <span>{{report.json()[item]}}</span>
+            {% endif %}
+        </li>
+    {% endif %}
+    {% endfor %}
+    </ul>
+</span>
+
+<table class='table table-striped'><thead id='queries' class='thead-dark'><h2>Queries</h2><tr>
+    {% for key in queries[0].json().keys() %}
+        <th>{{key}}</th>
+    {% endfor %}
+    </tr></thead>
+    {% for query in queries %}
+    <tr>
+        {% for item in query.json() %}
+        <td>{{query.json()[item]}}</td>
+        {% endfor %}
+    </tr>
+    {% endfor %}
+</table>
+
+<h2>Query Details</h2>
+{% for query in queries %}
+<table class="table table-striped"><thead class="thead-dark"><h3>{{query.name}}</h3></thead>
+    <tr>
+        {% for key in query.dataItems[0].json().keys() %}
+        <th>{{key}}</th>
+        {% endfor %}
+    </tr>
+    {% for dataItem in query.dataItems %}
+        <tr>
+        {% for key in dataItem.json() %}
+            <td>{{dataItem.json()[key]}}</td>
+        {% endfor %}
+        </tr>
+    {% endfor %}
+</table>
+{% endfor %}
+
 {% endblock %}

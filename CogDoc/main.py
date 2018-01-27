@@ -58,7 +58,8 @@ def upload_file():
 @app.route('/reports', methods=["GET","POST"])
 def listReports():
     reports = []
-    [reports.append(Util.DBloadInputFile(row[2], reportName=row.NAME, CMID=row.CMID)) for row in DC.getAllReports()]
+    rows = Util.getAllReports("laptop_mssql")
+    [reports.append(Util.DBloadInputFile(row[2], reportName=row.NAME, CMID=row.CMID)) for row in rows]
     if len(reports)>0:
         keys = reports[0].json().keys()
         lstJSON = []
@@ -66,6 +67,16 @@ def listReports():
 
         return render_template('reports.html', reports=reports, keys = keys, json = lstJSON)
 
+@app.route('/report', methods=["GET","POST"])
+def displayReport():
+    #CMID = request.args('CMID')
+    report = Util.getReportByID("laptop_mssql", 337)
+    json = report.json()
+    queries = []
+    [queries.append(query) for query in report.queries]
+    #dataItems = report.dataItems
+    #filters = report.filters
+    return render_template('report.html', report = report, json=json, queries=queries)
 
 if __name__=='__main__':
     app.run(port=8180)
