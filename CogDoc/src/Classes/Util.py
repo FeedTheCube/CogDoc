@@ -7,7 +7,7 @@ from src.Classes.DataItem import DataItem
 from src.Classes.DetailFilter import DetailFilter
 from src.Classes.Query import Query
 from lxml import etree 
-import CogDoc.dataConnections as DC
+import dataConnections as DC
 
 class Util(object):
     #Used for static methods/functions
@@ -282,19 +282,19 @@ class Util(object):
         return rows
 
     def getAllReports(connectionID):
-        with open('../CogDoc/src/Views/_SQL_GetAllReports', 'r') as sqlFile:
+        with open('../src/Views/_SQL_GetAllReports.sql', 'r') as sqlFile:
             query = sqlFile.read()
-
         sqlFile.close()
+        
         rows = Util.queryDB(connectionID = connectionID, query=query)
         return rows
 
     def getReportByID(connectionID, CMID):
-        with open('../CogDoc/src/Views/_SQL_GetAllReports', 'r') as sqlFile:
+        with open('../src/Views/_SQL_GetAllReports.sql', 'r') as sqlFile:
             query = sqlFile.read()
         sqlFile.close()
 
-        with open('../CogDoc/src/Views/_SQL_Filter_andCMID', 'r') as sqlFilter:
+        with open('../CogDoc/src/Views/_SQL_Filter_andCMID.sql', 'r') as sqlFilter:
             query += sqlFilter.read()
         sqlFilter.close()
 

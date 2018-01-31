@@ -1,0 +1,43 @@
+﻿{% extends "_layout.html" %}
+{% block content %}
+<h1>
+    Settings
+</h1>
+
+<div style="width: 49%; display: inline-block; vertical-align: top; padding: 16px;">
+    <h2>Existing Connections</h2>
+    
+    {% for db in databases %}
+        <div>
+            <strong>Title: {{db.title}}</strong><br>
+            Mode: {{db.mode}}<br>
+            Host: {{db.host}}<br>
+            Port: {{db.port}}<br>
+            Database: {{db.db}}<br>
+            User: {{db.uid}}<br>
+            Pass: {{db.pwd}}<br>
+            <a href="./connection_edit?c={{db.title}}">Edit Connection</a>
+        </div>        
+        <br><br>
+    {% endfor %}
+</div>
+
+<div style="width: 49%; display: inline-block; vertical-align: top; padding: 16px;">
+    <h2>Add New Connection</h2>
+    
+    <form method="post">            
+        Title: <input type="text" name="db_title"><br>
+        Mode: <input type="text" name="db_mode"><br>
+        <br>        
+        Host: <input type="text" name="db_host"><br>
+        Port: <input type="text" name="db_port"><br>
+        Database: <input type="text" name="db_db"><br>
+        User: <input type="text" name="db_uid"><br>
+        Pass: <input type="text" name="db_pwd">
+        
+        <br><br>
+        
+        <input type="submit" value="Submit">
+    </form>
+</div>
+{% endblock %}
