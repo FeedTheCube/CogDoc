@@ -31,7 +31,7 @@
 	</connection>
 	<connection id="laptop_mssql">
 		<title>MSSQL Default</title>
-		<host>DESKTOP-M0SIVUH\FTCLPT14</host>
+		<host>E042248\SQLEXPRESS</host>
 		<port>port</port>
 		<mode>mssql</mode>
 		<login>

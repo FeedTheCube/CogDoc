@@ -89,7 +89,7 @@ def displaySettings():
         #Pass databases list to a function
         #Add a new connection to the list
         #Display list of connections as usual
-    
+        pass
     return render_template('settings.html',databases=databases)
     
     

@@ -152,7 +152,7 @@ class Util(object):
                     aggregate = item.get("aggregate"),
                     rollupAggregate = item.get("rollupAggregate"),
                     sort = item.get("sort"),
-                    expression = item.Element("expression"),
+                    expression = item.find(".//expression"),
                     element = item
                 )
             )
@@ -282,7 +282,7 @@ class Util(object):
         return rows
 
     def getAllReports(connectionID):
-        with open('../src/Views/_SQL_GetAllReports.sql', 'r') as sqlFile:
+        with open('../CogDoc/src/Views/_SQL_GetAllReports.sql', 'r') as sqlFile:
             query = sqlFile.read()
         sqlFile.close()
         
