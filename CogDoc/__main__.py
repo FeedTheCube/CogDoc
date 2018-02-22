@@ -71,13 +71,13 @@ def listReports():
         
 @app.route('/report', methods=["GET","POST"])
 def displayReport():
-    #CMID = request.args('CMID')
-    report = Util.getReportByID("laptop_mssql", 337)
+    CMID = 391
+    report = Util.getReportByID("laptop_mssql", CMID)
     json = report.json()
     queries = []
     [queries.append(query) for query in report.queries]
-    #dataItems = report.dataItems
-    #filters = report.filters
+    dataItems = report.dataItems
+
     return render_template('report.html', report=report, json=json, queries=queries)
 
     

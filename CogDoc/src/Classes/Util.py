@@ -146,13 +146,15 @@ class Util(object):
         
         itemGroup = element.iter(namespace+"dataItem")
         for item in itemGroup:
+            exp = item.find(".//"+namespace+"expression")
+
             dataItems.append(
                 DataItem(
                     name = item.get("name"),
                     aggregate = item.get("aggregate"),
                     rollupAggregate = item.get("rollupAggregate"),
                     sort = item.get("sort"),
-                    expression = item.find(".//expression"),
+                    expression = exp.text,
                     element = item
                 )
             )
@@ -170,10 +172,11 @@ class Util(object):
                     usage = item.get("usage")
                 else:
                     usage = "required"
-                
+
                 detailFilters.append(
+
                     DetailFilter(
-                        expression = item[0].text,
+                        expression = item.findtext(".//filterExpression"),
                         usage = usage,
                         element = item
                     )
@@ -290,7 +293,7 @@ class Util(object):
         return rows
 
     def getReportByID(connectionID, CMID):
-        with open('../src/Views/_SQL_GetAllReports.sql', 'r') as sqlFile:
+        with open('../CogDoc/src/Views/_SQL_GetAllReports.sql', 'r') as sqlFile:
             query = sqlFile.read()
         sqlFile.close()
 
