@@ -31,12 +31,12 @@
 	</connection>
 	<connection id="laptop_mssql">
 		<title>MSSQL Default</title>
-		<host>DESKTOP-M0SIVUH\FTCLPT14</host>
+		<host>server_name\instance_name</host>
 		<port>port</port>
 		<mode>mssql</mode>
 		<login>
 			<user>sa</user>
-			<pass>04434u5b</pass>
+			<pass>password</pass>
 		</login>
 		<structure>
 			<dbName>cognos_cs</dbName>
