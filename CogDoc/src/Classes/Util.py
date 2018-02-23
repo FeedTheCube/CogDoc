@@ -2,12 +2,12 @@ import os
 from _codecs import encode
 import codecs
 from _codecs import utf_8_encode
-from src.Classes.Report import Report
-from src.Classes.DataItem import DataItem
-from src.Classes.DetailFilter import DetailFilter
-from src.Classes.Query import Query
-from lxml import etree 
-import dataConnections as DC
+from CogDoc.src.Classes.Report import Report
+from CogDoc.src.Classes.DataItem import DataItem
+from CogDoc.src.Classes.DetailFilter import DetailFilter
+from CogDoc.src.Classes.Query import Query
+from lxml import etree, objectify
+import CogDoc.dataConnections as DC
 
 class Util(object):
     #Used for static methods/functions
@@ -121,16 +121,21 @@ class Util(object):
         
         itemGroup = element.iter(namespace + "query")
         for item in itemGroup:
-            if item[0][0].tag == namespace+"queryRef":
-                source = item[0][0].get("refQuery")
-            if item[0][0].tag == namespace+"model":
-                source = "model"
+            #item = objectify.deannotate(item[0][0], cleanup_namespaces=True)
+            print(item.tag)
+            startPos = item.tag.find(namespace)+len(namespace)
+            source = item[0][0].tag[startPos:]
+
+            if source=='joinOperation':
+                joins = True
+            else:
+                joins = False
 
             queries.append( 
                 Query(
                     name = item.get("name"),
                     source = source,
-                    joins = None,
+                    joins = joins,
                     dataItems = Util.getDataItems(item, namespace),
                     filters = Util.getDetailFilters(item, namespace),
                     slicers = None,

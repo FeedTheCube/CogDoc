@@ -16,15 +16,15 @@
 	</connection>
 	<connection id="hyndman_mssql">
 		<title>MSSQL Default</title>
-		<host>server</host>
-		<port>port</port>
+		<host>DESKTOP-1H18QTS\FTCSQL14</host>
+		<port>1433</port>
 		<mode>mssql</mode>
 		<login>
-			<user>uid</user>
-			<pass>password</pass>
+			<user>sa</user>
+			<pass>04434u5b</pass>
 		</login>
 		<structure>
-			<dbName>content_store_db_name</dbName>
+			<dbName>cognos_cs</dbName>
 			<colID>CMID</colID>
 			<colXML>xml</colXML>
 		</structure>

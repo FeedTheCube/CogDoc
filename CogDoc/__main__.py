@@ -59,7 +59,7 @@ def upload_file():
 @app.route('/reports', methods=["GET","POST"])
 def listReports():
     reports = []
-    rows = Util.getAllReports("laptop_mssql")
+    rows = Util.getAllReports("hyndman_mssql")
     [reports.append(Util.DBloadInputFile(row[2], reportName=row.NAME, CMID=row.CMID)) for row in rows]
     if len(reports)>0:
         keys = reports[0].json().keys()
@@ -73,7 +73,7 @@ def listReports():
 def displayReport(cmid):
     CMID = int(cmid)
     print("get report: ", CMID)
-    report = Util.getReportByID("laptop_mssql", CMID)
+    report = Util.getReportByID("hyndman_mssql", CMID)
     json = report.json()
     queries = []
     [queries.append(query) for query in report.queries]
