@@ -24,7 +24,11 @@
             Hyperlink
             {% endif %}
             {% for property in item %}
-            <td>{{item[property]}}</td>
+                {% if property == "name" %}
+                    <td><a href="./report/{{ item.CMID }}">{{item[property]}}</a>  </td>
+                {% else %}
+                    <td>{{item[property]}}</td>
+                {% endif %}
             {% endfor %}
         </tr>
         {% endfor %}

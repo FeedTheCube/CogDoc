@@ -69,9 +69,10 @@ def listReports():
         return render_template('reports.html', reports=reports, keys = keys, json = lstJSON)
 
         
-@app.route('/report', methods=["GET","POST"])
-def displayReport():
-    CMID = 391
+@app.route('/report/<string:cmid>', methods=["GET","POST"])
+def displayReport(cmid):
+    CMID = int(cmid)
+    print("get report: ", CMID)
     report = Util.getReportByID("laptop_mssql", CMID)
     json = report.json()
     queries = []
