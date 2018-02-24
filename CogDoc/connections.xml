@@ -16,30 +16,30 @@
 	</connection>
 	<connection id="hyndman_mssql">
 		<title>MSSQL Default</title>
-		<host>DESKTOP-1H18QTS\FTCSQL14</host>
-		<port>1433</port>
+		<host>server_name\instance_name</host>
+		<port>port</port>
 		<mode>mssql</mode>
 		<login>
 			<user>sa</user>
-			<pass>04434u5b</pass>
+			<pass>password</pass>
 		</login>
 		<structure>
-			<dbName>cognos_cs</dbName>
+			<dbName>cognos_content_store_name</dbName>
 			<colID>CMID</colID>
 			<colXML>xml</colXML>
 		</structure>
 	</connection>
 	<connection id="laptop_mssql">
 		<title>MSSQL Default</title>
-		<host>E042248\SQLEXPRESS</host>
+		<host>Server_name\instance_name</host>
 		<port>port</port>
 		<mode>mssql</mode>
 		<login>
 			<user>sa</user>
-			<pass>04434u5b</pass>
+			<pass>password</pass>
 		</login>
 		<structure>
-			<dbName>cognos_cs</dbName>
+			<dbName>cognos_content_store_name</dbName>
 			<colID>CMID</colID>
 			<colXML>xml</colXML>
 		</structure>
