@@ -1,6 +1,7 @@
 class Query(object):
     """description of class"""
-    def __init__(self, name, source, joins, dataItems, filters, slicers, element):
+    def __init__(self, name, source, joins, dataItems, filters, slicers, element, report=None):
+        self.report = report
         self.name = name
         self.source = source
         self.joins = joins
@@ -11,6 +12,7 @@ class Query(object):
 
     def json(self):
         return {
+            'report':self.report,
             'name': self.name,
             'source': self.source,
             'joins': self.joins,

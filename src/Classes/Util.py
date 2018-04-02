@@ -88,7 +88,7 @@ class Util(object):
 
             new = Report(name, namespace, useStyleVersion, expressionLocale, viewPagesAsTabs, item)
 
-            new.queries = Util.getQueries(item, namespace)
+            new.queries = Util.getQueries(item, namespace, report=name)
             new.dataItems = Util.getDataItems(item, namespace)
 
             reports.append(new)
@@ -111,12 +111,12 @@ class Util(object):
 
         report = Report(CMID=CMID, name=name,xmlns=namespace, useStyleVersion=useStyleVersion, expressionLocale=expressionLocale, viewPagesAsTabs = viewPagesAsTabs, element=element)
 
-        report.queries = Util.getQueries(element, namespace)
+        report.queries = Util.getQueries(element, namespace, report=name)
         report.dataItems = Util.getDataItems(element, namespace)
 
         return report
 
-    def getQueries(element, namespace):
+    def getQueries(element, namespace, report):
         queries = []
         
         itemGroup = element.iter(namespace + "query")
@@ -125,14 +125,20 @@ class Util(object):
 
             startPos = item.tag.find(namespace)+len(namespace)
             source = item[0][0].tag[startPos:]
-
+            print (source)
             if source=='joinOperation':
                 joins = True
+            elif (source == 'queryRef'):
+                sourceIter = item.iter(namespace+source)
+                for src in sourceIter:
+                    source = src.attrib['refQuery']
+                joins=False
             else:
                 joins = False
 
             queries.append( 
                 Query(
+                    report = report,
                     name = item.get("name"),
                     source = source,
                     joins = joins,
@@ -173,16 +179,19 @@ class Util(object):
         itemGroup = element.iter(namespace + "detailFilter")
         if itemGroup:
             for item in itemGroup:
-                if item.get("usage"):
-                    usage = item.get("usage")
+                if item.get("use"):
+                    use = item.get("use")
                 else:
-                    usage = "required"
+                    use = "required"
+
+                postAutoAggregation = item.get("postAutoAggregation")
 
                 detailFilters.append(
 
                     DetailFilter(
-                        expression = item.findtext(".//filterExpression"),
-                        usage = usage,
+                        expression = item[0].text,
+                        usage = use,
+                        postAutoAggregation = postAutoAggregation,
                         element = item
                     )
                 )

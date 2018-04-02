@@ -2,12 +2,12 @@
 
 	<connection id="hyndman_mssql">
 		<title>MSSQL Default</title>
-		<host>server\instance</host>
+		<host>DESKTOP-1H18QTS\FTCSQL14</host>
 		<port>1433</port>
 		<mode>mssql</mode>
 		<login>
-			<user>username</user>
-			<pass>password</pass>
+			<user>sa</user>
+			<pass>04434u5b</pass>
 		</login>
 		<structure>
 			<dbName>cognos_cs</dbName>
@@ -16,4 +16,4 @@
 		</structure>
 	</connection>
 
-</connections>	
+</connections>

@@ -53,7 +53,7 @@ def listQueries():
     [reports.append(Util.DBloadInputFile(row[2], reportName=row.NAME, CMID=row.CMID)) for row in rows]
     if len(reports)>0:
         for report in reports:
-            rowsQ = Util.getQueries(report.element, report.xmlns)
+            rowsQ = Util.getQueries(report.element, report.xmlns, report=report.name)
             for query in rowsQ:
                 allQueries.append(query)
     else:
@@ -64,6 +64,7 @@ def listQueries():
         for query in allQueries:
             print(query.name + ":", query.joins )
             if query.joins==True:
+                query.json().insert("report", report.name)
                 queries.append(query)
     else:
         queries=allQueries
@@ -129,7 +130,7 @@ def upload_file():
 
 @app.route('/trial')
 def displayTrial():
-    return render_template('trial.html')
+    return render_template('login.html')
 
 
 if __name__ == '__main__':

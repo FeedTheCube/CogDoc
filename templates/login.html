@@ -1,0 +1,41 @@
+<!-- Licensed Materials - Property of IBM
+    IBM Cognos Products: Cognos Analytics
+    (C) Copyright IBM Corp. 2016, 2017
+    US Government Users Restricted Rights - Use, duplication or disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
+-->
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>Login Script Using the CMS Login API</title>
+  <meta name="description" content="Login Script Using the CMS Login API">
+
+  <script src="static/js/loginScriptSample.js"></script>
+</head>
+
+<body>
+
+	When viewing the sample page with embedded iFrames (<a href="iFrameSample.html">here</a>), Cognos will recognize that login has occurred and load the embedded content.</p>
+    <p>You can use this script with hardcoded credentials, for example if the content is on a specific user's account,<br>
+        or you can use a login form so users can input their own credentials if the content is shared.</p>
+
+    <form action="#">
+        <fieldset>
+            <legend>Sample Form to Login to Cognos Analytics</legend>
+            Namespace (change to your own):<br/>
+            <!-- Add your namespace as an option -->
+            <select size="1" name="namespace">
+                <option value="CognosEx">Cognos User</option>
+            </select><br/>
+            UserID:<br/>
+            <input type="text" name="userid"/><br/>
+            Password:<br/>
+            <input type="password" name="password"/><br/>
+            <!-- Calls login() function in loginScriptSample.js -->
+            <input type="button" name="Login" onclick="login();" value="Login"/>
+        </fieldset>
+    </form>
+	</body>
+</html>
