@@ -1,13 +1,13 @@
 import os
-from _codecs import encode
-import codecs
-from _codecs import utf_8_encode
-from CogDoc.src.Classes.Report import Report
-from CogDoc.src.Classes.DataItem import DataItem
-from CogDoc.src.Classes.DetailFilter import DetailFilter
-from CogDoc.src.Classes.Query import Query
-from lxml import etree, objectify
-import CogDoc.dataConnections as DC
+
+from src.Classes.DataItem import DataItem
+from src.Classes.DetailFilter import DetailFilter
+from src.Classes.Query import Query
+from src.Classes.Report import Report
+from lxml import etree
+
+import dataConnections as DC
+
 
 class Util(object):
     #Used for static methods/functions
@@ -33,7 +33,7 @@ class Util(object):
             XMLattributes = ""
             for item in report.json():
                 value = report.json()[item]
-                print(value)
+
                 badge = ""
                 if isinstance(value, int):
                     badge = "<span class='badge'><a href='#{}'>{}</a></span>".format(item,value)
@@ -41,7 +41,7 @@ class Util(object):
 
                 XMLattributes += "<li class='list-group-item'>{}  {}  {}</li>".format(item, value, badge)
             
-            print(XMLattributes)
+
             if XMLattributes != "":
                 content += "<h2>Summary</h2><ul class='list-group'>{}</ul>".format(XMLattributes)
 
@@ -122,7 +122,7 @@ class Util(object):
         itemGroup = element.iter(namespace + "query")
         for item in itemGroup:
             #item = objectify.deannotate(item[0][0], cleanup_namespaces=True)
-            print(item.tag)
+
             startPos = item.tag.find(namespace)+len(namespace)
             source = item[0][0].tag[startPos:]
 
@@ -226,7 +226,7 @@ class Util(object):
         for header in listJSONs[0].keys():
             headerLabelsHTML+="<th scope='col'>{}</th>".format(header)
         
-        print(headerLabelsHTML)
+
         html += "<thead  class='thead-light'><tr>{}</tr></thead><tbody>".format(headerLabelsHTML)
         
         #set Records
@@ -242,7 +242,7 @@ class Util(object):
 
     def HTMLloadInputFile(xmlFile):
         if(xmlFile):
-            print(type(xmlFile))
+
             spec = xmlFile.read()
             xmlFile.close()
 
@@ -261,7 +261,7 @@ class Util(object):
 
     def DBloadInputFile(strXML, reportName=None, CMID=None):
         if(strXML):
-            parser = etree.XMLParser(recover=True,  remove_blank_text=True, ns_clean=True)
+            parser = etree.XMLParser(remove_blank_text=True, ns_clean=True, recover=True)
             xmlData = etree.fromstring(strXML, parser=parser)
 
             ns = "{" + xmlData.nsmap[None] + "}"
@@ -290,7 +290,7 @@ class Util(object):
         return rows
 
     def getAllReports(connectionID):
-        with open('../CogDoc/src/Views/_SQL_GetAllReports.sql', 'r') as sqlFile:
+        with open('src/Views/_SQL_GetAllReports.sql', 'r') as sqlFile:
             query = sqlFile.read()
         sqlFile.close()
         
@@ -298,16 +298,16 @@ class Util(object):
         return rows
 
     def getReportByID(connectionID, CMID):
-        with open('../CogDoc/src/Views/_SQL_GetAllReports.sql', 'r') as sqlFile:
+        with open('src/Views/_SQL_GetAllReports.sql', 'r') as sqlFile:
             query = sqlFile.read()
         sqlFile.close()
 
-        with open('../CogDoc/src/Views/_SQL_Filter_andCMID.sql', 'r') as sqlFilter:
+        with open('src/Views/_SQL_Filter_andCMID.sql', 'r') as sqlFilter:
             query += sqlFilter.read()
         sqlFilter.close()
 
         query = query.format(CMID)
         rows = Util.queryDB(connectionID=connectionID, query=query)
-        print(rows[0].NAME)
+
         report = Util.DBloadInputFile(strXML=rows[0][2],reportName=rows[0].NAME, CMID = rows[0].CMID)
         return report

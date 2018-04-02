@@ -1,0 +1,19 @@
+<connections>
+
+	<connection id="hyndman_mssql">
+		<title>MSSQL Default</title>
+		<host>server\instance</host>
+		<port>1433</port>
+		<mode>mssql</mode>
+		<login>
+			<user>username</user>
+			<pass>password</pass>
+		</login>
+		<structure>
+			<dbName>cognos_cs</dbName>
+			<colID>CMID</colID>
+			<colXML>xml</colXML>
+		</structure>
+	</connection>
+
+</connections>	

@@ -1,0 +1,19 @@
+.tabledata{
+    border: none;
+}
+.expression{
+    font-size: 0.5rem;
+    vertical-align: middle;
+}
+
+td{
+    vertical-align: text-top;
+}
+
+#Attributes{
+    margin-top: 10px;
+}
+
+.list-group {
+    width: auto;
+}

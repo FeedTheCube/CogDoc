@@ -1,0 +1,37 @@
+{% extends "_layout.html" %}
+{% block content %}
+
+<div class="container jumbotron">
+    <h1>{{report.name}}</h1>
+</div>
+
+<div class="container" id="buttons">
+    <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#Attributes"><i class="fa fa-list-alt" style="font-size:24px;"></i></button>
+    <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#queries"><i class="fa fa-table" style="font-size:24px;"></i></button>
+    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#xml"><i class="fa fa-copy" style="font-size:24px;"></i></button>
+</div>
+
+{% include "report_attributes.html" %}
+
+{% include "report_queries.html" %}
+
+<div class="modal" id="xml" tabindex="-1" role="dialog" aria-labelledby="XML Specification" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="XML Specification">XML Specification</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+                <pre lang="xml">{{element}}</pre>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

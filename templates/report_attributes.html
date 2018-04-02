@@ -1,0 +1,17 @@
+<div class="container collapse" id="Attributes">
+    <h2>Attributes</h2>
+        <ul class="list-group">
+        {% for item in report.json() %}
+            {% if item != 'name' %}
+                <li class='list-group-item'>{{item}}:
+                    {% if item in ["drillBehaviours", "queries", "dataItems", "pages", "dataContainers"] %}
+                        <div class="badge">{{report.json()[item]}}</div>
+                    {% else %}
+                        {{report.json()[item]}}
+                    {% endif %}
+                </li>
+            {% endif %}
+        {% endfor %}
+
+        </ul>
+</div>

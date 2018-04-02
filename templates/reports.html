@@ -1,16 +1,18 @@
-﻿{% extends "_layout.html" %}
+{% extends "_layout.html" %}
 {% block content %}
-
+<div class="container">
     {% if reports|length > 0 %}
-<div class="jumbotron" style="vertical-align:top">
+    <div class="jumbotron" style="vertical-align:top">
     <h2 style="display:inline">Reports</h2>   
     <span class="badge badge-dark">{{reports|length}}</span>
-</div>
-<table class="table table-striped">
+    </div>
+    <table class="table table-striped">
     <thead class="thead thead-dark">
         <tr>
             {% for key in keys %}
-            <th>{{key}}</th>
+                {% if key != 'xmlns' %}
+                    <th>{{key}}</th>
+                {% endif %}
             {% endfor %}
         </tr>
 
@@ -24,9 +26,9 @@
             Hyperlink
             {% endif %}
             {% for property in item %}
-                {% if property == "name" %}
+                {% if property == "name"  %}
                     <td><a href="./report/{{ item.CMID }}">{{item[property]}}</a>  </td>
-                {% else %}
+                {% elif property != "xmlns" %}
                     <td>{{item[property]}}</td>
                 {% endif %}
             {% endfor %}
@@ -36,5 +38,6 @@
 
     </tbody>
 </table>
-    {% endif %}
+{% endif %}
+</div>
 {% endblock %}
