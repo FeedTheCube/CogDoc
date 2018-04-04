@@ -12,7 +12,7 @@ import dataConnections as DC
 class Util(object):
     #Used for static methods/functions
 
-    def loadInputFile(path):
+    def loadInputFile(path, filename):
         if(path):
             with open(path,'r') as xmlFile:
                 spec = xmlFile.read()
@@ -21,52 +21,8 @@ class Util(object):
             xmlData = etree.fromstring(spec, parser=parser)
             ns = "{" + xmlData.nsmap[None] + "}"
 
-
-            #TEMPORARY OUTPUT SETUP
-
-            report = Util.getSingleReport(xmlData, ns)
-            
-            #Build the output
-            content = ""
-            
-            #Attributes
-            XMLattributes = ""
-            for item in report.json():
-                value = report.json()[item]
-
-                badge = ""
-                if isinstance(value, int):
-                    badge = "<span class='badge'><a href='#{}'>{}</a></span>".format(item,value)
-                    value = ""
-
-                XMLattributes += "<li class='list-group-item'>{}  {}  {}</li>".format(item, value, badge)
-            
-
-            if XMLattributes != "":
-                content += "<h2>Summary</h2><ul class='list-group'>{}</ul>".format(XMLattributes)
-
-            #Queries
-            lstQueries = Util.getQueries(xmlData, ns)
-            lstQueriesJSON = [query.json() for query in lstQueries]
-            content += Util.HTMLify(lstQueriesJSON, "queries")
-            
-            #Query Objects
-            for query in lstQueries:
-                #dataItems
-                dataItems = Util.getDataItems(query.element, ns)
-                dataItemsJSON = [item.json() for item in dataItems]
-                content += Util.HTMLify(dataItemsJSON, "{}:  Data Items".format(query.name))
-                #detailFilters
-                detailFilters = Util.getDetailFilters(query.element, ns)
-                detailFiltersJSON = [filter.json() for filter in detailFilters]
-                content += Util.HTMLify(detailFiltersJSON, "{}: Filters".format(query.name)) 
-
-         
-            #Pages
-            
-            #Containers
-            return content, report
-        return None
+            report = Util.getSingleReport(xmlData, ns, reportName=filename)
+            return report
 
 
     def getReports(element, namespace):
@@ -100,14 +56,16 @@ class Util(object):
 
         #IMPROVE - The below chunk of code seems less than ideal. I imagine there's a much better way to handle it.
 
-
+        name=''
         useStyleVersion = element.get('useStyleVersion')
         expressionLocale = element.get('expressionLocale')
         viewPagesAsTabs = element.get('viewPagesAsTabs')
         if (reportName):
             name = reportName
         else:
-            name = element.find('reportName')[0].text
+            nameTags = element.find(namespace+'reportName')
+            for tag in nameTags:
+                name = tag[0].text
 
         report = Report(CMID=CMID, name=name,xmlns=namespace, useStyleVersion=useStyleVersion, expressionLocale=expressionLocale, viewPagesAsTabs = viewPagesAsTabs, element=element)
 
@@ -199,57 +157,7 @@ class Util(object):
         return detailFilters
 
 
-    def exportHTML(filename, title, header, content, footer):
-        with open(os.getcwd()+"\\src\\templates\\template.html","r") as templateFile:
-            template = templateFile.read()
-        templateFile.close()
-
-        template = template.replace("[[TITLE]]",title)
-        template = template.replace("[[HEADER]]",header)
-        template = template.replace("[[CONTENT]]",content)
-        template = template.replace("[[FOOTER]]",footer)
-
-        with open(filename,"w") as outFile:
-            outFile.write(template)
-        outFile.close()
-
-    
-    def HTMLify(listJSONs, title=None):
-        #length of listJSONs
-        if (len(listJSONs)>0):
-            tableWidth = len(listJSONs[0].keys())
-        else:
-            return "<table class='table'><tr class='info'>{}: No Filters</table>".format(title)
-        #skip empty jsons
-        if (len(listJSONs)<1):
-            pass
-        
-        #build the table
-        html = "<table class='table table-striped'>"
-        
-        #set Headers
-        if (title):
-            html += "<thead id={1} class='thead-dark'><tr><th scope='col' colspan='{0}'>{1}</th></tr></thead>".format(tableWidth, title)
-            
-        headerLabelsHTML = ""
-        for header in listJSONs[0].keys():
-            headerLabelsHTML+="<th scope='col'>{}</th>".format(header)
-        
-
-        html += "<thead  class='thead-light'><tr>{}</tr></thead><tbody>".format(headerLabelsHTML)
-        
-        #set Records
-        for item in listJSONs:
-            rowValuesHTML = ""
-            for field in item:
-                rowValuesHTML+="<td scope='row' class='filterable-cell'>{}</td>".format(item[field])
-            html += "<tr>{}</tr>".format(rowValuesHTML)
-        
-        #close the table
-        html += "</tbody></table>"
-        return html
-
-    def HTMLloadInputFile(xmlFile):
+    def HTMLloadInputFile(xmlFile, filename):
         if(xmlFile):
 
             spec = xmlFile.read()
@@ -263,7 +171,7 @@ class Util(object):
 
             #TEMPORARY OUTPUT SETUP
 
-            report = Util.getSingleReport(xmlData, ns)
+            report = Util.getSingleReport(xmlData, ns, reportName=filename)
             
             return report
         return None
@@ -272,13 +180,8 @@ class Util(object):
         if(strXML):
             parser = etree.XMLParser(remove_blank_text=True, ns_clean=True, recover=True)
             xmlData = etree.fromstring(strXML, parser=parser)
-
             ns = "{" + xmlData.nsmap[None] + "}"
-
-            # TEMPORARY OUTPUT SETUP
-
             report = Util.getSingleReport(xmlData, ns, reportName, CMID=CMID)
-
             return report
 
         return None

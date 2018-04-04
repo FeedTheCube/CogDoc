@@ -10,9 +10,9 @@ class DataItem(object):
 
     def json(self):
         return {
-            'name':self.name,
-            'aggregate': self.aggregate,
-            'rollupAggregate': self.rollupAggregate,
-            'sort': self.sort,
-            'expression': self.expression
+            'Name':self.name,
+            'Aggregate': self.aggregate,
+            'Rollup Aggregate': self.rollupAggregate,
+            'Sort': self.sort,
+            'Expression': self.expression
             }

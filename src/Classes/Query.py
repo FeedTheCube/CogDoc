@@ -12,11 +12,11 @@ class Query(object):
 
     def json(self):
         return {
-            'report':self.report,
-            'name': self.name,
-            'source': self.source,
-            'joins': self.joins,
-            'dataItems': len( self.dataItems ),
-            'filters': len(self.filters),
-            'slicers': self.slicers,
+            'Report':self.report,
+            'Name': self.name,
+            'Source': self.source,
+            'Joins': self.joins,
+            'Data Items': len( self.dataItems ),
+            'Filters': len(self.filters),
+            'Slicers': self.slicers,
             }

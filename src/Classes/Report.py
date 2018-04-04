@@ -28,15 +28,15 @@ class Report(object):
     def json(self):
         return {
             'CMID': self.CMID,
-            'name': self.name,
+            'Name': self.name,
             'xmlns' : self.xmlns, 
-            'useStyleVersion' : self.useStyleVersion, 
-            'expressionLocale' : self.expressionLocale, 
-            'viewPagesAsTabs' : self.viewPagesAsTabs,
-            'drillBehaviours': len(self.drillBehaviors),
-            'queries': len(self.queries),
-            'dataItems': len(self.dataItems),
-            'pages': len(self.pages),
-            'dataContainers': len(self.dataContainers)
+            'Use Style Version' : self.useStyleVersion,
+            'Expression Locale' : self.expressionLocale,
+            'View Pages As Tabs' : self.viewPagesAsTabs,
+            'Drill Behaviours': len(self.drillBehaviors),
+            'Queries': len(self.queries),
+            'Data Items': len(self.dataItems),
+            'Pages': len(self.pages),
+            'Data Containers': len(self.dataContainers)
         }
 

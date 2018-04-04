@@ -1,7 +1,7 @@
 {% if not queries %}
 <h5>no queries found</h5>
 {% else %}
-{{queries[0].report}}
+
     <div class="container collapse show" id="queries" >
         <table class="table table-responsive">
             <thead class="thead-dark"><h2>Queries</h2>
@@ -16,7 +16,7 @@
             {% for query in queries %}
             <tr>
                 {% for item in query.json() %}
-                    {% if query.json()["joins"]==True and (item == "source" or item == "joins")%}
+                    {% if query.joins==True and (item == "Source" or item == "Joins")%}
                         <td><span class="badge badge-warning">{{query.json()[item]}}</span></td>
                     {% else %}
             <td>{{query.json()[item]}}</td>
@@ -25,7 +25,9 @@
                 {% endfor %}
                     <td class="body" style="border: none"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#{{query.name | replace(' ','') }}"><i class="fa fa-info-circle"></i></button></td>
                     <td class="body" style="border: none"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#{{ query.name | replace(' ','') + 'Filters'}}"><i class="fa fa-filter"></i></button></td>
+                    {% if query.joins==True %}
                     <td class="body" style="border: none"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#{{ query.name | replace(' ','') + 'Joins'}}"><i class="fa fa-code-fork"></i></button></td>
+                    {% endif %}
             </tr>
 
             {% endfor %}
@@ -59,7 +61,7 @@
                     <tr>
                     {% for key in dataItem.json() %}
                         <td>
-                        {% if key=='expression' %}
+                        {% if key=='Expression' %}
                             <samp class="expression">{{dataItem.json()[key]}}</samp>
                         {% else %}
                         {{dataItem.json()[key]}}
@@ -99,11 +101,11 @@
                 <tr>
 
                 {% for item in filter.json() %}
-                     {% if filter.json()['usage'] == 'prohibited' %}
+                     {% if filter.json()['Usage'] == 'prohibited' %}
                         <td><s>{{filter.json()[item]}}</s></td>
-                    {% elif filter.json()['usage'] == 'optional' %}
+                    {% elif filter.json()['Usage'] == 'optional' %}
                         <td><em>{{filter.json()[item]}}</em></td>
-                    {% elif  filter.json()['usage'] in [None,'required'] %}
+                    {% elif  filter.json()['Usage'] in [None,'required'] %}
                         <td><strong>{{filter.json()[item]}}</strong></td>
                     {% else %}
                         <td class = "alert alert-warning">{{filter.json()[item]}}</td>

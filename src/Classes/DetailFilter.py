@@ -8,7 +8,7 @@ class DetailFilter(object):
 
     def json(self):
         return {
-            "expression": self.expression,
-            "usage":self.usage,
-            "postAutoAggregation":self.postAutoAggregation
+            "Expression": self.expression,
+            "Usage":self.usage,
+            "After Auto Aggregation":self.postAutoAggregation
             }

@@ -113,8 +113,10 @@ def upload_file():
             return redirect(request.url)
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
-            # reports.append(Util.HTMLloadInputFile(file))
+            print(filename)
 
+            report=Util.HTMLloadInputFile(file, filename )
+            element = etree.tostring(report.element, pretty_print=True).decode()
             # with codecs.encode( file, 'utf-8', 'ignore') as sourceFile:
             #    with codecs.open(file.filename, "w", "utf-8") as targetFile:
             #        while True:
@@ -123,7 +125,7 @@ def upload_file():
             #                break
             #            targetFile.write(contents)
 
-            return redirect(url_for('listReports'))
+            return render_template('report.html', element=element, report=report, json=report.json, queries=report.queries, title=report.name)
 
     return render_template('load_report.html')
 
@@ -134,4 +136,4 @@ def displayTrial():
 
 
 if __name__ == '__main__':
-    app.run(port=8180)
+    app.run(host='0.0.0.0', port=8180)
