@@ -63,42 +63,61 @@ class Util(object):
         if (reportName):
             name = reportName
         else:
-            nameTags = element.find(namespace+'reportName')
-            for tag in nameTags:
-                name = tag[0].text
+            name = element.find(namespace+'reportName').text
+            # for tag in nameTags:
+             #   name = tag[0].text
+        modelTag = element.find(namespace+'modelPath')
+        if modelTag is not None:
+            modelPath = modelTag.get('path')
+        else:
+            modelPath = 'not found'
 
-        report = Report(CMID=CMID, name=name,xmlns=namespace, useStyleVersion=useStyleVersion, expressionLocale=expressionLocale, viewPagesAsTabs = viewPagesAsTabs, element=element)
-
-        report.queries = Util.getQueries(element, namespace, report=name)
+        report = Report(CMID=CMID, name=name,xmlns=namespace, useStyleVersion=useStyleVersion, expressionLocale=expressionLocale, viewPagesAsTabs = viewPagesAsTabs, modelPath=modelPath, element=element)
+        report.queries = Util.getQueries(element, namespace, report=name, modelPath=modelPath)
         report.dataItems = Util.getDataItems(element, namespace)
 
         return report
 
-    def getQueries(element, namespace, report):
+    def getQueries(element, namespace, report, modelPath):
         queries = []
         
         itemGroup = element.iter(namespace + "query")
         for item in itemGroup:
             #item = objectify.deannotate(item[0][0], cleanup_namespaces=True)
-
             startPos = item.tag.find(namespace)+len(namespace)
+            sourceTag= item.find(namespace+'source')
             source = item[0][0].tag[startPos:]
-            print (source)
             if source=='joinOperation':
                 joins = True
+                sourceName = ''
+                queryRefs = item.iter(namespace+'queryRef')
+                for tag in queryRefs:
+                     sourceName += tag.get('refQuery')+', '
+                sourceName = sourceName[:-2]
             elif (source == 'queryRef'):
+                joins = False
                 sourceIter = item.iter(namespace+source)
                 for src in sourceIter:
-                    source = src.attrib['refQuery']
-                joins=False
-            else:
+                    sourceName = src.attrib['refQuery']
+            elif (source=='metadataPath'):
                 joins = False
+                sourcePath = sourceTag.find(namespace+'metadataPath').get('path')
+            elif (source=='model'):
+                joins = False
+                mdl = element.find('modelPath')
+
+                sourceName = "not there yet."
+
+            else:
+                join = False
+                sourceName = ''
 
             queries.append( 
                 Query(
                     report = report,
                     name = item.get("name"),
                     source = source,
+                    sourceName = sourceName,
                     joins = joins,
                     dataItems = Util.getDataItems(item, namespace),
                     filters = Util.getDetailFilters(item, namespace),

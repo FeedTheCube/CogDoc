@@ -11,7 +11,7 @@ class Report(object):
     #ADD - schedule
     #ADD - saved outputs
 
-    def __init__(self, CMID, name, xmlns, useStyleVersion, expressionLocale,  element, viewPagesAsTabs=None, drillBehaviors = [], queries=[], dataItems=[], pages=[], dataContainers=[]):
+    def __init__(self, CMID, name, xmlns, useStyleVersion, expressionLocale,  element, modelPath, viewPagesAsTabs=None, drillBehaviors = [], queries=[], dataItems=[], pages=[], dataContainers=[]):
         self.CMID = CMID
         self.xmlns = xmlns
         self.name = name
@@ -19,6 +19,7 @@ class Report(object):
         self.expressionLocale = expressionLocale
         self.viewPagesAsTabs = viewPagesAsTabs
         self.element = element
+        self.modelPath = modelPath
         self.drillBehaviors = drillBehaviors
         self.queries = queries
         self.dataItems = dataItems
@@ -33,6 +34,7 @@ class Report(object):
             'Use Style Version' : self.useStyleVersion,
             'Expression Locale' : self.expressionLocale,
             'View Pages As Tabs' : self.viewPagesAsTabs,
+            'Model Path': self.modelPath,
             'Drill Behaviours': len(self.drillBehaviors),
             'Queries': len(self.queries),
             'Data Items': len(self.dataItems),

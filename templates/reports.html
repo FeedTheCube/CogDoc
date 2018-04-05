@@ -26,7 +26,7 @@
             Hyperlink
             {% endif %}
             {% for property in item %}
-                {% if property == "name"  %}
+                {% if property == "Name"  %}
                     <td><a href="./report/{{ item.CMID }}">{{item[property]}}</a>  </td>
                 {% elif property != "xmlns" %}
                     <td>{{item[property]}}</td>

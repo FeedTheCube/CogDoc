@@ -9,35 +9,69 @@
     
     {% for db in databases %}
         <div>
-            <strong>Title: {{db.title}}</strong><br>
-            Mode: {{db.mode}}<br>
-            Host: {{db.host}}<br>
-            Port: {{db.port}}<br>
-            Database: {{db.db}}<br>
-            User: {{db.uid}}<br>
-            Pass: {{db.pwd}}<br>
-            <a href="./connection_edit?c={{db.title}}">Edit Connection</a>
+            <table>
+                <tr>
+                    <td><strong>Title:</strong></td><td><strong>{{db.title}}</strong></td>
+                </tr>
+                <tr>
+                    <td>Mode: </td><td>{{db.mode}}</td>
+                </tr>
+                <tr>
+                    <td>Host: </td><td>{{db.host}}</td>
+                </tr>
+                <tr>
+                    <td>Port: </td><td>{{db.port}}</td>
+                </tr>
+                <tr>
+                    <td>Database: </td><td>{{db.db}}</td>
+                </tr>
+                <tr>
+                    <td>User: </td><td>{{db.uid}}</td>
+                </tr>
+                <tr>
+                    <a href="./connection_edit?c={{db.title}}">Edit Connection</a>
+                </tr>
+            </table>
+
         </div>        
         <br><br>
     {% endfor %}
 </div>
 
 <div style="width: 49%; display: inline-block; vertical-align: top; padding: 16px;">
-    <h2>Add New Connection</h2>
-    
-    <form method="post">            
-        Title: <input type="text" name="db_title"><br>
-        Mode: <input type="text" name="db_mode"><br>
-        <br>        
-        Host: <input type="text" name="db_host"><br>
-        Port: <input type="text" name="db_port"><br>
-        Database: <input type="text" name="db_db"><br>
-        User: <input type="text" name="db_uid"><br>
-        Pass: <input type="text" name="db_pwd">
-        
-        <br><br>
-        
-        <input type="submit" value="Submit">
+
+    <fieldset>
+    <legend><h2>Add New Connection</h2></legend>
+    <form method="post">
+                    <table>
+                <tr>
+                    <td><strong>Title:</strong></td><td><strong><input type="text" name="db_title"></strong></td>
+                </tr>
+                <tr>
+                    <td>Mode: </td><td><input type="text" name="db_mode"></td>
+                </tr>
+                <tr>
+                    <td>Host: </td><td><input type="text" name="db_host"></td>
+                </tr>
+                <tr>
+                    <td>Port: </td><td><input type="text" name="db_port"></td>
+                </tr>
+                <tr>
+                    <td>Database: </td><td><input type="text" name="db_db"></td>
+                </tr>
+                <tr>
+                    <td>User: </td><td><input type="text" name="db_uid"></td>
+                </tr>
+                <tr>
+                    <td>Password: </td><td><input type="password" name="db_pwd"></td>
+                </tr>
+                <tr>
+                           <input type="submit" value="Submit">
+                </tr>
+            </table>
+
     </form>
+
+    </fieldset>
 </div>
 {% endblock %}
