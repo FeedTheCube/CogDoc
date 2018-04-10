@@ -1,25 +1,80 @@
-<!DOCTYPE HTML>
+<!-- Licensed Materials - Property of IBM
+    IBM Cognos Products: Cognos Analytics
+    (C) Copyright IBM Corp. 2016, 2017
+    US Government Users Restricted Rights - Use, duplication or disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
+-->
+<!doctype html>
+
 <html lang="en">
 <head>
-    <title>{{title}}</title>
-    <!-- favicon -->
-    <link id="favicon" rel="shortcut icon" href="{{ url_for('static', filename='img/favicon.ico') }} " type="image/vnd.microsoft.icon">
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=yes">
-    <meta name="description" content="Login Script Using the CMS Login API">
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/lib/bootstrap.css') }}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+  <meta charset="utf-8">
+
+  <title>Login Script Using the CMS Login API</title>
+  <meta name="description" content="Login Script Using the CMS Login API">
+
+  <script>/*
+ *+------------------------------------------------------------------------+
+ *| Licensed Materials - Property of IBM
+ *| IBM Cognos Products: Content Explorer
+ *| (C) Copyright IBM Corp. 2015, 2016, 2017
+ *|
+ *| US Government Users Restricted Rights - Use, duplication or disclosure
+ *| restricted by GSA ADP Schedule Contract with IBM Corp.
+ *+------------------------------------------------------------------------+
+ */
+
+// Login via the CMS (Cognos Mashup Service) API
+function login() {
+    var xmlhttp = new XMLHttpRequest();
+    var oForm = document.forms[0];
+
+    // grab the login form input values
+    var namespace = oForm.elements.namespace.value;
+    var userID = oForm.elements.userid.value;
+    var password = oForm.elements.password.value;
+	var canAuthenticate = true;
+
+    // sent a POST request to the CMS Login API
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState === XMLHttpRequest.DONE) {
+            // if not logged in attempt to login
+            if (xmlhttp.status === 200) {
+                // Redirect to page with embedded iFrames after authenticated
+                window.location ='/iFrameSample';
+            } else if (xmlhttp.status === 441) {
+				var loginContext = getLoginContext(namespace, userID, password);
+				canAuthenticate = false;
+				xmlhttp.open("POST",  "http://localhost:9300/bi/v1/disp/rds/auth/logon", false);
+				xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+				xmlhttp.send(loginContext);
+			}
+        }
+    };
+    // attempt to GET home perspective to trigger a 441 if not authenticated
+    xmlhttp.open("GET", 'http://localhost:9300/bi/v1/perspectives/home' + '?' + Date.now(), true);
+    xmlhttp.send();
+}
+
+function getLoginContext(nameSpace, userID, password) {
+
+      var context = "xmlData=<credentials>"
+      +"<credentialElements><name>CAMNamespace</name><label>Namespace:</label>"
+      +"<value><actualValue>"+nameSpace+"</actualValue></value>"
+      +"</credentialElements><credentialElements><name>CAMUsername</name><label>User ID:</label>"
+      +"<value><actualValue>"+userID+"</actualValue></value>"
+      +"</credentialElements><credentialElements><name>CAMPassword</name><label>Password:</label>"
+      +"<value><actualValue>"+password+"</actualValue></value>"
+      +"</credentialElements></credentials>";
+
+	  return context;
+}
+</script>
 
 </head>
 
 <body>
-  <script src="static/js/loginScriptSample.js"></script>
-	When viewing the sample page with embedded iFrames (<a href="iFrameSample.html">here</a>), Cognos will recognize that login has occurred and load the embedded content.</p>
+
+	When viewing the sample page with embedded iFrames (<a href="{{url_for('displayiFrameSample')}}">here</a>), Cognos will recognize that login has occurred and load the embedded content.</p>
     <p>You can use this script with hardcoded credentials, for example if the content is on a specific user's account,<br>
         or you can use a login form so users can input their own credentials if the content is shared.</p>
 
@@ -29,7 +84,7 @@
             Namespace (change to your own):<br/>
             <!-- Add your namespace as an option -->
             <select size="1" name="namespace">
-                <option value="CognosEx">Cognos User</option>
+                <option value="CognosEx">CognosEx (Example)</option>
             </select><br/>
             UserID:<br/>
             <input type="text" name="userid"/><br/>

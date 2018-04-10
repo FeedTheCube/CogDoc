@@ -11,8 +11,9 @@ class Report(object):
     #ADD - schedule
     #ADD - saved outputs
 
-    def __init__(self, CMID, name, xmlns, useStyleVersion, expressionLocale,  element, modelPath, viewPagesAsTabs=None, drillBehaviors = [], queries=[], dataItems=[], pages=[], dataContainers=[]):
+    def __init__(self, CMID, storeID, name, xmlns, useStyleVersion, expressionLocale,  element, modelPath, viewPagesAsTabs=None, drillBehaviors = [], queries=[], dataItems=[], pages=[], dataContainers=[]):
         self.CMID = CMID
+        self.storeID = storeID
         self.xmlns = xmlns
         self.name = name
         self.useStyleVersion = useStyleVersion
@@ -29,6 +30,7 @@ class Report(object):
     def json(self):
         return {
             'CMID': self.CMID,
+            'Store ID': self.storeID,
             'Name': self.name,
             'xmlns' : self.xmlns, 
             'Use Style Version' : self.useStyleVersion,

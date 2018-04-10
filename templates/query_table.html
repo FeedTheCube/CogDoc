@@ -1,0 +1,44 @@
+    <div class="container collapse show" id="queries" >
+        <table class="table table-responsive">
+            <thead class="thead-dark"><h2>Queries</h2>
+                <tr>
+
+                    {% for key in queries[0].json().keys() %}
+                        <th>{{key}}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+
+            {% for query in queries %}
+            <tr>
+                {% for item in query.json() %}
+                    {% if query.joins==True and (item == "Source" or item == "Joins")%}
+                        <td><span class="badge badge-warning">{{query.json()[item]}}</span></td>
+                    {% else %}
+            <td>{{query.json()[item]}}</td>
+                    {% endif %}
+
+                {% endfor %}
+                    <td class="body" style="border: none">
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#{{ (query.report + query.name) | urlencode }}">
+                        <i class="fa fa-info-circle"  data-toggle="tooltip" title="Data Items"></i>
+                    </button>
+                    </td>
+                    <td class="body" style="border: none">
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#{{ (query.report + query.name) | urlencode + 'Filters'}}">
+                            <i class="fa fa-filter"  data-toggle="tooltip" title="Filters"></i>
+                        </button>
+                    </td>
+                    {% if query.joins==True %}
+                    <td class="body" style="border: none">
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#{{ (query.report + query.name) | urlencode + 'Joins'}}">
+                            <i class="fa fa-code-fork"  data-toggle="tooltip" title="Joins"></i>
+                        </button>
+                    </td>
+                    {% endif %}
+            </tr>
+
+            {% endfor %}
+
+        </table>
+    </div>

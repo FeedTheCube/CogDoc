@@ -24,3 +24,4 @@ class Query(object):
             'Filters': len(self.filters),
             'Slicers': self.slicers,
             }
+

@@ -1,0 +1,23 @@
+<table class="table table-responsive"><h3>{{query.name}} Filters</h3>
+        <tr>
+        {% for key in query.filters[0].json().keys() %}
+            <td> {{key}} </td>
+        {% endfor %}
+        </tr>
+        {% for filter in query.filters %}
+        <tr>
+
+        {% for item in filter.json() %}
+             {% if filter.json()['Usage'] == 'prohibited' %}
+                <td><s>{{filter.json()[item]}}</s></td>
+            {% elif filter.json()['Usage'] == 'optional' %}
+                <td><em>{{filter.json()[item]}}</em></td>
+            {% elif  filter.json()['Usage'] in [None,'required'] %}
+                <td><strong>{{filter.json()[item]}}</strong></td>
+            {% else %}
+                <td class = "alert alert-warning">{{filter.json()[item]}}</td>
+            {% endif %}
+        {% endfor %}
+        </tr>
+        {% endfor %}
+</table>

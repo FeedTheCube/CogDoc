@@ -26,11 +26,11 @@ function login() {
             // if not logged in attempt to login
             if (xmlhttp.status === 200) {
                 // Redirect to page with embedded iFrames after authenticated
-                window.location ='http://localhost:9300/embedded_content/iFrameSample.html';
+                window.location ='/iFrameSample';
             } else if (xmlhttp.status === 441) {
 				var loginContext = getLoginContext(namespace, userID, password);
 				canAuthenticate = false;
-				xmlhttp.open("POST",  "/bi/v1/disp/rds/auth/logon", false);
+				xmlhttp.open("POST",  "http://localhost:9300/bi/v1/disp/rds/auth/logon", false);
 				xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 				xmlhttp.send(loginContext);
 			}

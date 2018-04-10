@@ -1,0 +1,20 @@
+<div class="modal" id="{{ (query.report + query.name) | urlencode + 'Filters'}}" tabindex="-1" role="dialog" aria-labelledby="{{query.name}}" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="{{query.name}}+FilterModalTitle">{{query.report}}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          {% if query.filters|length >= 1 %}
+                {% include 'query_filters_table.html' %}
+          {% endif %}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

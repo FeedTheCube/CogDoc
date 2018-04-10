@@ -1,128 +1,17 @@
 {% if not queries %}
-<h5>no queries found</h5>
+    <div class="container">
+        <h5>no queries found</h5>
+    </div>
 {% else %}
 
-    <div class="container collapse show" id="queries" >
-        <table class="table table-responsive">
-            <thead class="thead-dark"><h2>Queries</h2>
-                <tr>
-
-                    {% for key in queries[0].json().keys() %}
-                        <th>{{key}}</th>
-                    {% endfor %}
-                </tr>
-            </thead>
-
-            {% for query in queries %}
-            <tr>
-                {% for item in query.json() %}
-                    {% if query.joins==True and (item == "Source" or item == "Joins")%}
-                        <td><span class="badge badge-warning">{{query.json()[item]}}</span></td>
-                    {% else %}
-            <td>{{query.json()[item]}}</td>
-                    {% endif %}
-
-                {% endfor %}
-                    <td class="body" style="border: none"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#{{query.name | replace(' ','') }}"><i class="fa fa-info-circle"></i></button></td>
-                    <td class="body" style="border: none"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#{{ query.name | replace(' ','') + 'Filters'}}"><i class="fa fa-filter"></i></button></td>
-                    {% if query.joins==True %}
-                    <td class="body" style="border: none"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#{{ query.name | replace(' ','') + 'Joins'}}"><i class="fa fa-code-fork"></i></button></td>
-                    {% endif %}
-            </tr>
-
-            {% endfor %}
-
-        </table>
-    </div>
+    {% include 'query_table.html' %}
 
 
-        {% for query in queries %}
+    {% for query in queries %}
 
-<div class="modal" id="{{ query.name | replace(' ','') }}" tabindex="-1" role="dialog" aria-labelledby="{{query.name}}" aria-hidden="true">
-  <div class="modal-dialog modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="{{query.name}}">Selection</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <div>
-            <table class="table"><h3>Data Items</h3>
-                <thead class="thead-dark">
-                <tr>
-                    {% for key in query.dataItems[0].json().keys() %}
-                    <th>{{key}}</th>
-                    {% endfor %}
-                </tr>
-                </thead>
-                {% for dataItem in query.dataItems %}
-                    <tr>
-                    {% for key in dataItem.json() %}
-                        <td>
-                        {% if key=='Expression' %}
-                            <samp class="expression">{{dataItem.json()[key]}}</samp>
-                        {% else %}
-                        {{dataItem.json()[key]}}
-                        {% endif %}
-                        </td>
-                    {% endfor %}
-                    </tr>
-                {% endfor %}
-            </table>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-      </div>
-    </div>
-  </div>
-</div>
+        {% include 'query_dataItems_modal.html' %}
+        {% include 'query_filters_modal.html' %}
 
-<div class="modal" id="{{ query.name | replace(' ','') + 'Filters'}}" tabindex="-1" role="dialog" aria-labelledby="{{query.name}}" aria-hidden="true">
-  <div class="modal-dialog modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="{{query.name}}+FilterModalTitle">Selection</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-          {% if query.filters|length >= 1 %}
-        <table class="table table-responsive">
-        <tr>
-            {% for key in query.filters[0].json().keys() %}
-                <td> {{key}} </td>
-            {% endfor %}
-        </tr>
-            {% for filter in query.filters %}
-                <tr>
-
-                {% for item in filter.json() %}
-                     {% if filter.json()['Usage'] == 'prohibited' %}
-                        <td><s>{{filter.json()[item]}}</s></td>
-                    {% elif filter.json()['Usage'] == 'optional' %}
-                        <td><em>{{filter.json()[item]}}</em></td>
-                    {% elif  filter.json()['Usage'] in [None,'required'] %}
-                        <td><strong>{{filter.json()[item]}}</strong></td>
-                    {% else %}
-                        <td class = "alert alert-warning">{{filter.json()[item]}}</td>
-                    {% endif %}
-                {% endfor %}
-                </tr>
-            {% endfor %}
-        {% endif %}
-        </table>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-        {% endfor %}
+    {% endfor %}
 
 {% endif %}

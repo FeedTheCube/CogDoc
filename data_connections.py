@@ -27,7 +27,8 @@ def dbLoadConfig(id):
                 "port" : item.find('port').text,
                 "db" : item.find('./structure/dbName').text,
                 "uid" : item.find('./login/user').text,
-                "pwd" : item.find('./login/pass').text
+                "pwd" : item.find('./login/pass').text,
+                "gateway" : item.find('gateway').text
             })
 
     if not output:
@@ -52,11 +53,11 @@ def dbConnect(config):
 
         if mode == "mssql":
             conn = connectMSSQL(
-                r'DRIVER={ODBC Driver 11 for SQL Server};'
+                r'DRIVER={SQL Server};'
                 r'SERVER='+host+';'
                 r'DATABASE='+db+';'
                 r'UID='+uid+';'
-                r'PWD='+pwd
+                r'PWD='+pwd+';'
             )
         elif mode == "mysql":
             conn = connectMySQL(host=host, user=uid, passwd=pwd, db=db)

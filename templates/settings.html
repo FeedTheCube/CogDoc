@@ -1,12 +1,10 @@
 ﻿{% extends "_layout.html" %}
 {% block content %}
-<h1>
-    Settings
-</h1>
 
-<div style="width: 49%; display: inline-block; vertical-align: top; padding: 16px;">
+<div class="container">
+
     <h2>Existing Connections</h2>
-    
+
     {% for db in databases %}
         <div>
             <table>
@@ -29,16 +27,18 @@
                     <td>User: </td><td>{{db.uid}}</td>
                 </tr>
                 <tr>
+                    <td>Dispatcher URI: </td><td>{{db.gateway}}</td>
+                </tr>
+                <tr>
                     <a href="./connection_edit?c={{db.title}}">Edit Connection</a>
                 </tr>
             </table>
-
-        </div>        
+        </div>
         <br><br>
     {% endfor %}
-</div>
 
-<div style="width: 49%; display: inline-block; vertical-align: top; padding: 16px;">
+
+
 
     <fieldset>
     <legend><h2>Add New Connection</h2></legend>
@@ -64,6 +64,9 @@
                 </tr>
                 <tr>
                     <td>Password: </td><td><input type="password" name="db_pwd"></td>
+                </tr>
+                <tr>
+                    <td>Cognos Gateway: </td><td><input type="text" name="db_gateway" placeholder="http://server.name.com:port" value="{% if db: %}{{db.gateway}}{% endif %}"></td>
                 </tr>
                 <tr>
                            <input type="submit" value="Submit">

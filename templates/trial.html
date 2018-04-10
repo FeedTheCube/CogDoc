@@ -1,8 +1,26 @@
-{% extends "_layout2.html" %}
+{% extends "_layout.html" %}
 {% block content %}
-{{request.host_url}}
-
-
-    {% include "sub-block.html" %}
-
+<div class="container-fluid">
+    <div>
+        <div class="row report">
+            <div class="col-lg-3 col-md-7 col-sm-12">long property long property long property long property long property long property long property long property </div>
+            <div class="col-lg-2 col-md-5 col-sm-9">medium</div>
+            <div class="col-lg-3 col-md-7 col-sm-12 ">long property</div>
+            <div class="col-lg-1 col-md-1 col-sm-2 col-xs-2">short</div>
+            <div class="col-lg-1 col-md-1 col-sm-2 col-xs-2">short</div>
+            <div class="col-lg-1 col-md-1 col-sm-2 col-xs-2">short</div>
+            <div class="col-lg-1 col-md-1 col-sm-2 col-xs-2">short</div>
+        </div>
+        <div class="row report">
+            <div class="col-lg-3 col-md-7 col-sm-12">lorem ipsum or some crazy stuff like that lorem ipsum or some crazy stuff like that lorem ipsum or some crazy stuff like that lorem ipsum or some crazy stuff like that lorem ipsum or some crazy stuff like that lorem ipsum or some crazy stuff like that  </div>
+            <div class="col-lg-2 col-md-5 col-sm-9">medium</div>
+            <div class="col-lg-3 col-md-7 col-sm-12 ">long property</div>
+            <div class="col-lg-1 col-md-1 col-sm-2 col-xs-2">short</div>
+            <div class="col-lg-1 col-md-1 col-sm-2 col-xs-2">short</div>
+            <div class="col-lg-1 col-md-1 col-sm-2 col-xs-2">short</div>
+            <div class="col-lg-1 col-md-1 col-sm-2 col-xs-2">short</div>
+        </div>
+    </div>
+<iframe src="http://feedthecube.ca:9300/bi/?pathRef=.public_folders%2FChris+reports%2FMulti-package&amp;ui_appbar=false&amp;ui_navbar=false&amp;format=HTML&amp;Download=false&amp;prompt=true" width="500" height="400"></iframe>
+</div>
 {% endblock %}

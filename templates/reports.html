@@ -2,40 +2,41 @@
 {% block content %}
 <div class="container">
     {% if reports|length > 0 %}
-    <div class="jumbotron" style="vertical-align:top">
-    <h2 style="display:inline">Reports</h2>   
-    <span class="badge badge-dark">{{reports|length}}</span>
-    </div>
+    <script>
+        addBadge('txtTitle', '{{reports|length}}', ' sm-hidden badge-default');
+
+    </script>
+
+
     <table class="table table-striped">
     <thead class="thead thead-dark">
         <tr>
             {% for key in keys %}
-                {% if key != 'xmlns' %}
-                    <th>{{key}}</th>
+                {% if key not in ["xmlns", "CMID", "Store ID"] %}
+                    <th class="col-md-1">{{key}}</th>
                 {% endif %}
             {% endfor %}
         </tr>
 
     </thead>
+
     <tbody>
-
-
         {% for item in json %}
         <tr>
-            {% if item=='CMID' %}
-            Hyperlink
-            {% endif %}
-            {% for property in item %}
-                {% if property == "Name"  %}
-                    <td><a href="./report/{{ item.CMID }}">{{item[property]}}</a>  </td>
-                {% elif property != "xmlns" %}
-                    <td>{{item[property]}}</td>
+            {% for key in item %}
+
+                {% if key == "Name"  %}
+                    <td class="col-md-1">
+                        <a href="./report/{{ item.CMID }}">{{item[key]}}</a>
+                    </td>
+                {% elif key not in ["xmlns", "CMID", "Store ID"] %}
+                    <td class="col-xs-1">
+                        {{item[key]}}
+                    </td>
                 {% endif %}
             {% endfor %}
         </tr>
         {% endfor %}
-
-
     </tbody>
 </table>
 {% endif %}

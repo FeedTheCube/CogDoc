@@ -1,4 +1,6 @@
 Flask==0.12.2
+Flask-Session==0.3.1
 Flask-MySQLdb==0.2.0
 pyodbc==4.0.22
 lxml==3.8.0
+ldap3==2.4.1

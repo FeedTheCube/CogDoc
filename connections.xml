@@ -5,6 +5,7 @@
 		<host>DESKTOP-1H18QTS\FTCSQL14</host>
 		<port>1433</port>
 		<mode>mssql</mode>
+		<gateway>http://feedthecube.ca:9300</gateway>
 		<login>
 			<user>sa</user>
 			<pass>04434u5b</pass>

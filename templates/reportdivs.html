@@ -1,0 +1,69 @@
+{% extends "_layout.html" %}
+{% block content %}
+        {% if reports|length > 0 %}
+             <script>
+                addBadge('txtTitle', '{{reports|length}}', ' sm-hidden badge-default');
+            </script>
+            <div class="container">
+            {% for query in json %}
+                <div class="container row border border-primary ml-0 mr-0 mb-1 no-gutters" >
+                    <div class="col-sm-12 ">
+                          <div class="col-12 bg-primary">
+                              <a href="{{url_for('displayReport', cmid=query['CMID']) }}" class="a text-light">{{query['Name']}}</a>
+                          </div>
+                      <div class="row">
+                        {% for key in query %}
+                            {% if key not in  ["Name", "xmlns", "CMID"]  %}
+                                {% if key in ["Drill Behaviours", "Queries", "Data Items", "Pages", "Data Containers"] %}
+                                    <div class="col-2 col-lg-2 col-md-4 col-sm-6 col-xs-12">
+                                        <div class="row">{{key}}</div>
+                                        <div class="row">{{query[key]}}</div>
+                                    </div>
+
+                                {% elif key in ["Model Path"] %}
+                                    <div class="col-12">
+                                        {{key}}: {{query[key]}}
+                                    </div>
+                          {% endif %}
+                            {% endif %}
+                          {% endfor %}
+                      </div>
+                  </div>
+                </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+{% endblock %}
+
+
+
+
+
+        {% if reports|length > 0 %}
+            {% for query in json %}
+                <div class="row">
+                    <div class="row">
+
+                    </div>
+                    <div class="row">
+                        {% for key in query %}
+                            {% if key not in  ["Name", "xmlns", "CMID"]  %}
+                                {% if key in ["Drill Behaviours", "Queries", "Data Items", "Pages", "Data Containers"] %}
+                                    <div class="col-lg-2 col-md-4 col-sm-6">
+                                        <div>
+                                        <div class="row">{{key}}:</div>
+                                        <div class="row">{{query[key]}}</div>
+                                        </div>
+                                    </div>
+
+                                {% elif key in ["Model Path"] %}
+                                    <div class="col-12">
+                                        {{key}}: {{query[key]}}
+                                    </div>
+                                {% endif %}
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endfor %}
+        {% endif %}

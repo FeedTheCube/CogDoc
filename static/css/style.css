@@ -1,19 +1,48 @@
-.tabledata{
-    border: none;
-}
-.expression{
-    font-size: 0.5rem;
-    vertical-align: middle;
+.bg-jumbo{
+    /* The image used */
+    margin-top: 65px;
+    background-image: url("/static/img/jumbo-light.png");
+    background-size: contain;
+
+    /* Full height */
+    height: 100%;
+
+    /* Center and scale the image nicely */
+    background-position: bottom right;
+    background-repeat: no-repeat;
 }
 
-td{
-    vertical-align: text-top;
+#jumbo-error{
+    background-image: url("/static/img/404_640.jpg");
+    background-size: contain;
 }
 
-#Attributes{
-    margin-top: 10px;
+.logo{
+    height: 32px;
+    width: 32px;
 }
 
-.list-group {
-    width: auto;
+.badge-default {
+    margin-left: 5px;
+    vertical-align: 10%;
+    background-color: grey;
+    color: white;
+}
+
+.row-alt div:nth-child(even){
+    background-color: white;
+}
+
+.row-alt div:nth-child(odd){
+    background-color: #dcdcdc
+}
+
+td {
+    font-size: 0.8em;
+}
+
+.report {
+    border: 0.5px solid;
+    border-color: var(--info);
+    margin-bottom: 2px;
 }
