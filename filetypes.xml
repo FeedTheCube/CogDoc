@@ -1,6 +1,7 @@
 <application>
   <component name="FileTypeManager" version="17">
     <extensionMap>
+      <mapping pattern="card.jinja" type="HTML" />
       <mapping ext="jinja" type="HTML" />
       <mapping pattern="_SQL_Filter_andCMID" type="SQL" />
     </extensionMap>
