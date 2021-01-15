@@ -18,6 +18,10 @@
           <option name="url" value="https://gitlab.feedthecube.ca/hyndmanc/udemy-eCommerce.git" />
           <option name="userName" value="" />
         </UrlAndUserName>
+        <UrlAndUserName>
+          <option name="url" value="https://gitlab.feedthecube.ca/FTC/ReportSpectre.git" />
+          <option name="userName" value="" />
+        </UrlAndUserName>
       </list>
     </option>
     <option name="cloneParentDir" value="C:\Users\Chris\PycharmProjects" />
