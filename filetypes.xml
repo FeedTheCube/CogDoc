@@ -1,15 +1,14 @@
 <application>
   <component name="FileTypeManager" version="17">
     <extensionMap>
-      <mapping pattern="*.js.flow" type="Flow" />
       <mapping pattern="card.jinja" type="HTML" />
       <mapping pattern="input_value.jinja" type="HTML" />
       <mapping ext="jinja" type="HTML" />
       <mapping ext="map" type="PLAIN_TEXT" />
       <mapping pattern="create_table_crop" type="SQL" />
       <mapping pattern="create_table_user" type="SQL" />
-      <mapping pattern="create_table_yield_calc" type="SQL" />
       <mapping pattern="create_table_pledges" type="SQL" />
+      <mapping pattern="create_table_yield_calc" type="SQL" />
       <mapping pattern="create_table_greenhouse" type="SQL" />
       <mapping pattern="ceate_table_roles" type="SQL" />
       <mapping pattern="create_table_roles" type="SQL" />
@@ -19,7 +18,6 @@
       <mapping pattern="create_table_gh_options" type="SQL" />
       <mapping pattern="create_table_gh_option_categories" type="SQL" />
       <mapping pattern="create_table_grow_systems" type="SQL" />
-      <mapping pattern="*.js.map" type="SourceMap" />
     </extensionMap>
   </component>
 </application>
