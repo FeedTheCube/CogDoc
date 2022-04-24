@@ -26,6 +26,10 @@
           <option name="url" value="http://gitlab.com" />
           <option name="userName" value="hyndmanc" />
         </UrlAndUserName>
+        <UrlAndUserName>
+          <option name="url" value="https://gitlab.com/f4429/sportsbook" />
+          <option name="userName" value="" />
+        </UrlAndUserName>
       </list>
     </option>
     <option name="cloneParentDir" value="C:\Users\Chris\PycharmProjects" />
